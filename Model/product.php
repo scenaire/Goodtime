@@ -27,6 +27,14 @@
       return $this->ID;
     }
 
+    public function getCategory() {
+      return $this->category;
+    }
+
+    public function getImage() {
+      return $this->image;
+    }
+
   }
 
 ?>
