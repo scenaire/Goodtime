@@ -2,7 +2,7 @@
 
 class productdb {
 
-  public function addItem($product) {
+  public function addItem(product $product) {
     require "db.php";
     $categoryID = $this->findCategoryID($product->getCategoryword());
     if ($categoryID === null) {
@@ -54,6 +54,18 @@ class productdb {
   public function getAllProduct() {
     require "db.php";
     $sql = "SELECT * FROM product";
+    $result = mysqli_query($con,$sql);
+    $arr = array();
+    while ($data = mysqli_fetch_array($result)) {
+      $arr[] = $data;
+    }
+    return $arr;
+  }
+
+  public function getProductbyCategory($categoryWord) {
+    require "db.php";
+    $categoryID = this->findCategoryID($categoryWord);
+    $sql = "SELECT * FROM product WHERE ProductCategoryID = '$categoryID'";
     $result = mysqli_query($con,$sql);
     $arr = array();
     while ($data = mysqli_fetch_array($result)) {

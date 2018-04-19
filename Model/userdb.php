@@ -2,7 +2,7 @@
 
 class userdb {
 
-  public function register($user) {
+  public function register(user $user) {
     require "db.php";
 
     $UFname = $user->getFName();
