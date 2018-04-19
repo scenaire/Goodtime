@@ -5,8 +5,7 @@
 
     private $id,$name,$price,$category,$image,$stock,$decs;
 
-    public function __construct($id,$name,$price,$category,$image,$stock,$decs) {
-      $this->id = $id;
+    public function __construct($name,$price,$category,$image,$stock,$decs) {
       $this->name = $name;
       $this->price = $price;
       $this->category = $category;
