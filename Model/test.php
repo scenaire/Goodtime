@@ -2,9 +2,15 @@
 
 require "cart.php";
 require "order.php";
+require "user.php";
+require "userdb.php";
 
-//$user = new customer;
-//$user->register("Tempesta","kwankang","36/20 ถนนมลิวรรณ ตำบล กุดป่อง","อำเภอ เมือง จังหวัด เลย 42000","tempesta-psyzeoul@Hotmail.com","จิรัชญา","ยี่โต๊ะ");
+//$user = new user("Tempesta","kwankang","จิรัชญา","ยี่โต๊ะ","36/20 ถนนมลิวรรณ ตำบล กุดป่อง อำเภอ เมือง จังหวัด เลย 42000","tempesta-psyzeoul@Hotmail.com");
+$user = new user;
+$user->login("tempesta","kwankang");
+echo $user->getUsername();
+echo "<br><br>";
+echo $user->getEmail();
 //echo $user->getCustomerbyUsername("Tempesta");
 
 //$obj = new action;
@@ -17,11 +23,11 @@ require "order.php";
 //echo "<br><br>";
 //print_r($obj->getAllProduct());
 
-$cart = new cart(1);
-$cart->addItem(20,2);
-$cart->addItem(30,4);
-$o = new order();
-$o->checkOut($cart);
+//$cart = new cart(1);
+//$cart->addItem(20,2);
+//$cart->addItem(30,4);
+//$o = new order();
+//$o->checkOut($cart);
 
 
 

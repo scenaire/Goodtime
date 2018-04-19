@@ -1,39 +1,66 @@
 <?php
 
-public function register($username,$password,$address1,$address2,$email,$UFname,$ULname) {
-  require "db.php";
+class userdb {
 
-  $sql = "INSERT INTO customer (CustFname,CustLName,CustAddress1,CustAddress2,CustEmail,username,password)
-  VALUES('$UFname','$ULname','$address1','$address2','$email','$username','$password')";
+  public function register($user) {
+    require "db.php";
 
-  if ($con->query($sql)===true) {
-    echo "successfully";
+    $UFname = $user->getFName();
+    $ULname = $user->getLname();
+    $address = $user->getAddress();
+    $email = $user->getEmail();
+    $username = $user->getUsername();
+    $password = $user->getPassword();
+
+    $sql = "INSERT INTO users (CustFname,CustLName,CustAddress,CustEmail,username,password)
+    VALUES('$UFname','$ULname','$address','$email','$username','$password')";
+
+    if ($con->query($sql)===true) {
+      echo "successfully";
+    }
+    else {
+      echo "Error: ". $sql . "<br>" .$con->error;
+    }
+
+    $con->close();
   }
-  else {
-    echo "Error: ". $sql . "<br>" .$con->error;
+
+  public function check_login($CUsername,$CPassword) {
+    include "db.php";
+
+    $CUsername = mysqli_real_escape_string($con,$CUsername);
+    $CPassword = mysqli_real_escape_string($con,$CPassword);
+
+    $sql = "SELECT * FROM users WHERE username = '$CUsername' AND password = '$CPassword'";
+    $run_query = mysqli_query($con,$sql);
+    $result = mysqli_fetch_array($run_query);
+    if (!$result) {
+       printf("Error: %s\n", mysqli_error($con));
+       return false;
+    } else {
+      return true;
+    }
   }
 
-  $con->close();
-}
-
-public function getCustomer() {
-  require "db.php";
-  $sql = "SELECT * FROM customer";
-  $run_query = mysqli_query($con,$sql);
-  $arr = array();
-  while ($data = mysqli_fetch_array($run_query)) {
-    $arr[] = $data;
+  public function getAllCustomer() {
+    require "db.php";
+    $sql = "SELECT * FROM users";
+    $run_query = mysqli_query($con,$sql);
+    $arr = array();
+    while ($data = mysqli_fetch_array($run_query)) {
+      $arr[] = $data;
+    }
+    return $arr;
   }
 
-  return $arr;
-}
+  public function getCustomer($username) {
+    require "db.php";
+    $sql = "SELECT * FROM users WHERE username = '$username'";
+    $run_query = mysqli_query($con,$sql);
+    $ID = mysqli_fetch_array($run_query);
+    return $ID;
+  }
 
-public function findIDbyUsername($username) {
-  require "db.php";
-  $sql = "SELECT CustomerID FROM customer WHERE username = '$username'";
-  $run_query = mysqli_query($con,$sql);
-  $ID = mysqli_fetch_array($run_query);
-  return $ID[0];
 }
 
  ?>

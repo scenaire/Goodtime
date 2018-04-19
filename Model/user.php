@@ -1,16 +1,31 @@
 <?php
 class user {
 
-  private $uid,$fname,$lname,$address,$email,$username,$password;
+  private $fname,$lname,$address,$email,$username,$password;
 
-  public function __construct($uid,$fname,$lname,$address,$email,$username,$password) {
-    $this->uid = $uid;
+  public function register($username,$password,$fname,$lname,$address,$email) {
     $this->fname = $fname;
     $this->lname = $lname;
-    $this->address = $address
+    $this->address = $address;
     $this->email = $email;
     $this->username = $username;
     $this->password = $password;
+  }
+
+  public function login($username,$password) {
+    $userdb = new userdb;
+    if ($userdb->check_login($username,$password)) {
+      $temp = $userdb->getCustomer($username,$password);
+      $this->fname = $temp['CustFName'];
+      $this->lname = $temp['CustLName'];
+      $this->address = $temp['CustAddress'];
+      $this->email = $temp['CustEmail'];
+      $this->username = $username;
+      $this->password = $password;
+    } else {
+
+    }
+
   }
 
   public function getEmail() {
@@ -37,29 +52,6 @@ class user {
     return $this->lname;
   }
 
-  public function getEmail($email) {
-    $this->email = $email;
-  }
-
-  public function getUsername($username) {
-    $this->username = $username;
-  }
-
-  public function getPassword($password) {
-    $this->password = $password;
-  }
-
-  public function getAddress($address) {
-    $this->address = $address;
-  }
-
-  public function getFName() {
-    $this->fname = $fname;
-  }
-
-  public function getLname() {
-    $this->lname = $lname;
-  }
 
 
 }
