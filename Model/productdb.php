@@ -64,7 +64,7 @@ class productdb {
 
   public function getProductbyCategory($categoryWord) {
     require "db.php";
-    $categoryID = this->findCategoryID($categoryWord);
+    $categoryID = $this->findCategoryID($categoryWord);
     $sql = "SELECT * FROM product WHERE ProductCategoryID = '$categoryID'";
     $result = mysqli_query($con,$sql);
     $arr = array();

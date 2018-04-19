@@ -13,9 +13,8 @@ require "product.php";
 //echo $user->getEmail();
 //echo $user->getCustomerbyUsername("Tempesta");
 
-////$obj->addItem("Nendoroid Saitama",1400,array("Product_image\Saitama01.jpg","Product_image\Saitama02.jpg"),"Nendoroid",10,"โล้นซ่า");
-//$obj->addItem("Nendoroid Midoriya",1690,array("Product_image\Midoriya01.jpg","Product_image\Midoriya02.jpg","Product_image\Midoriya03.jpg"),"Nendoroid",10,"เดกุคุง");
-//$obj->addItem("Funko Pop Newt Scamender 10",690,array("Product_image/FunkoNewt01.jpg"),"Funko",10,"นิวท์");
+//$obj = new product;
+
 //$obj->selectProduct(34);
 //echo $obj->getStock();
 //echo "<br><br>";
@@ -28,16 +27,13 @@ require "product.php";
 //echo "<br><br>";
 //print_r($obj->getAllProduct());
 
-$cart = new cart("Tempesta");
-$cart->addItem(34,2);
-$cart->addItem(35,3);
-$cart->addItem(36,5);
-$o = new order();
-$o->checkOut($cart);
-$cart = new cart("admin");
-$cart->addItem(34,4);
-$o = new order();
-$o->checkOut($cart);
+//$cart = new cart("Tempesta");
+//$cart->addItem(34,2);
+//$cart->addItem(35,3);
+//$cart->addItem(36,5);
+//$o = new order();
+//$o->newOrder($cart);
+
 
 
 
