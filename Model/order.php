@@ -2,33 +2,26 @@
 
 Class order {
 
-  private $cart;
+  private $cart,$trxID,$customer;
 
-  public function checkOut(cart $cart) {
-    include "db.php";
+  public function newOrder(cart $cart) {
+    require_once('orderdb.php');
     $this->cart = $cart;
-
-    $customer = $cart->getCustomerID();
-    $status = "Unsuccess";
-    $status = mysqli_real_escape_string($con,$status);
-    $allItem = $cart->getCart();
-
-    for ($x=0;$x<count($allItem);$x++) {
-      $product = $allItem[$x]['id'];
-      $quan = $allItem[$x]['quantity'];
-      $sql = "INSERT INTO orders (CustomerID,ProductID,Quantity,Status)
-      VALUES('$customer','$product','$quan','$status')";
-      if ($con->query($sql)===true) {
-        echo "successfully";
-      }
-      else {
-        echo "Error: ". $sql . "<br>" .$con->error;
-      }
-
-      echo "<br><br>";
-    }
-
+    $this->customer = $cart->getCustomerID();
+    $orderdb = new orderdb;
+    $orderdb->newOrder($this->cart);
   }
+
+  public function getOrderbyTrxID($trxid) {
+    $orderdb = new orderdb;
+    $orderArr = $orderdb->getOrderbyTrxID($trxID);
+  }
+
+  public function getOrderbyUsername() {
+    $orderdb = new orderdb;
+    $orderArr = $orderdb->getOrderbyUsername($customer);
+  }
+
 
 }
 
