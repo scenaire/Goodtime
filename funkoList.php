@@ -55,7 +55,7 @@ require_once('productdb.php');
 			<section class="navbar main-menu">
 				<div class="navbar-inner main-menu">
 					<div class="goodtimelogo">
-					<a href="index.php" class="logo pull-left">GOODTIME</a>
+					<a href="index.html" class="logo pull-left">GOODTIME</a>
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
@@ -67,8 +67,8 @@ require_once('productdb.php');
 				</div>
 			</section>
 			<section class="header_text sub">
-			<img class="pageBanner" src="Product_image/0.jpg" alt="New products" >
-				<h4><span>NENDOROID</span></h4>
+			<img class="pageBanner" src="Product_image/funkobanner.jpg" alt="New products" >
+				<h4><span>FUNKO</span></h4>
 			</section>
 			<section class="main-content">
 
@@ -77,7 +77,7 @@ require_once('productdb.php');
 						<ul class="thumbnails listing-products">
 							<?php
 							$productList = new productdb;
-							$arr = $productList->getProductbyCategory("Nendoroid");
+							$arr = $productList->getProductbyCategory("Funko");
 							foreach ($arr as $a) {
 								$pid = $a["ProductID"];
 								$pname = $a["ProductName"];
@@ -104,7 +104,7 @@ require_once('productdb.php');
 							<ul class="small-product">
 								<li>
 									<a href="#" title="Praesent tempor sem sodales">
-										<img src="themes/images/nendoroidImage/1.jpg" alt="Praesent tempor sem sodales">
+										<img src="themes/images/ladies/9.jpg" alt="Praesent tempor sem sodales">
 									</a>
 									<a href="#">Productname</a>
 								</li>
@@ -113,6 +113,7 @@ require_once('productdb.php');
 					</div>
 				</div>
 			</section>
+
 		</div>
 		<script src="themes/js/common.js"></script>
     </body>

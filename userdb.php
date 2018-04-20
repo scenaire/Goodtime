@@ -35,7 +35,6 @@ class userdb {
     $run_query = mysqli_query($con,$sql);
     $result = mysqli_fetch_array($run_query);
     if (!$result) {
-       printf("Error: %s\n", mysqli_error($con));
        return false;
     } else {
       return true;

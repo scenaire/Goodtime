@@ -438,8 +438,10 @@ section.navbar{
 
 .product-box img
 {
-	width: 640px;
-	height: 300px;
+	width: auto;
+	height: auto;
+	max-width: 270px;
+	max-height: 320px;
 }
 
 .product-box span.sale_tag {

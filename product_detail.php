@@ -58,9 +58,9 @@ require_once('product.php');
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
-							<li><a href="./miniatureList.html">MINIATURE HOUSE</a></li>
+							<li><a href="./miniatureList.php">MINIATURE HOUSE</a></li>
 							<li><a href="./nendoroidList.php">NENDOROID</a></li>
-							<li><a href="./funkoList.html">FUNKO</a>	</li>
+							<li><a href="./funkoList.php">FUNKO</a>	</li>
 						</ul>
 					</nav>
 				</div>
@@ -69,9 +69,15 @@ require_once('product.php');
 				<?php $pid = $_GET['pid'];
 				$product = new product;
 				$product->selectProduct($pid);
+        if ($product->getCategory()==1) {
+          $imgbanner = "Product_image/housebanner.jpg";
+        }
 				if ($product->getCategory()==2) {
-					$imgbanner = "themes/images/nendoroidImage/0.jpg";
+					$imgbanner = "Product_image/0.jpg";
 				}
+        if ($product->getCategory()==3) {
+          $imgbanner = "Product_image/funkobanner.jpg";
+        }
 				echo	"<img class='pageBanner' src='$imgbanner' alt='New products' >
 				<h4><span>".$product->getName()."</span></h4>"?>
 			</section>
@@ -91,10 +97,12 @@ require_once('product.php');
 								echo "<ul class='thumbnails small'>";
 								$imgall = $product->getImage();
 								unset($imgall[0]);
-								foreach ($imgall as $img) {
-									$img = $img['ProductImage'];
-									echo "<li class='span1'> <a href='$img' class='thumbnail' data-fancybox-group='group1' > <img src='$img' ></a></li>";
-								}
+								if (!empty($imgall)){
+                  foreach ($imgall as $img) {
+  									$img = $img['ProductImage'];
+  									echo "<li class='span1'> <a href='$img' class='thumbnail' data-fancybox-group='group1' > <img src='$img' ></a></li>";
+  								}
+                }
 								 ?>
 
 								</ul>

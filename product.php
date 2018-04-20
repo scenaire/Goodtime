@@ -28,7 +28,6 @@
       $this->stock = $temp['ProductStock'];
       $this->decs = $temp['ProductDecs'];
       $this->image = $productdb->getProductImage($productID);
-      return $this;
     }
 
     public function getPrice() {

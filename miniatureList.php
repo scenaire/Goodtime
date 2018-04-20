@@ -1,7 +1,9 @@
 <?php
+
 session_start();
 require_once('product.php');
 require_once('productdb.php');
+
  ?>
 
 <!DOCTYPE html>
@@ -45,7 +47,7 @@ require_once('productdb.php');
 						<ul class="user-menu">
 							<li><a href="cart.html">Your Cart</a></li>
 							<li><a href="checkout.html">Checkout</a></li>
-							<li><a href="register.php">Login</a></li>
+							<li><a href="register.html">Login</a></li>
 						</ul>
 					</div>
 				</div>
@@ -55,7 +57,7 @@ require_once('productdb.php');
 			<section class="navbar main-menu">
 				<div class="navbar-inner main-menu">
 					<div class="goodtimelogo">
-					<a href="index.php" class="logo pull-left">GOODTIME</a>
+					<a href="index.html" class="logo pull-left">GOODTIME</a>
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
@@ -67,8 +69,8 @@ require_once('productdb.php');
 				</div>
 			</section>
 			<section class="header_text sub">
-			<img class="pageBanner" src="Product_image/0.jpg" alt="New products" >
-				<h4><span>NENDOROID</span></h4>
+			<img class="pageBanner" src="Product_image/housebanner.jpg" alt="New products" >
+				<h4><span>MINIATURE HOUSE</span></h4>
 			</section>
 			<section class="main-content">
 
@@ -77,7 +79,7 @@ require_once('productdb.php');
 						<ul class="thumbnails listing-products">
 							<?php
 							$productList = new productdb;
-							$arr = $productList->getProductbyCategory("Nendoroid");
+							$arr = $productList->getProductbyCategory("Miniature House");
 							foreach ($arr as $a) {
 								$pid = $a["ProductID"];
 								$pname = $a["ProductName"];
@@ -96,7 +98,6 @@ require_once('productdb.php');
 							}
 							 ?>
 						</ul>
-						<hr>
 					</div>
 					<div class="span3 col">
 						<div class="block">
@@ -104,7 +105,7 @@ require_once('productdb.php');
 							<ul class="small-product">
 								<li>
 									<a href="#" title="Praesent tempor sem sodales">
-										<img src="themes/images/nendoroidImage/1.jpg" alt="Praesent tempor sem sodales">
+										<img src="themes/images/miniatureHouseImage/1.jpg" alt="Praesent tempor sem sodales">
 									</a>
 									<a href="#">Productname</a>
 								</li>
@@ -112,6 +113,7 @@ require_once('productdb.php');
 						</div>
 					</div>
 				</div>
+
 			</section>
 		</div>
 		<script src="themes/js/common.js"></script>

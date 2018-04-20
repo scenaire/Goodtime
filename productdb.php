@@ -6,7 +6,7 @@ class productdb {
     require "db.php";
     $categoryID = $this->findCategoryID($product->getCategoryword());
     if ($categoryID === null) {
-      echo "Error";
+      return "Error";
     } else {
       $name = mysqli_real_escape_string($con,$product->getName());
       $price = $product->getPrice();
@@ -18,7 +18,6 @@ class productdb {
         VALUES('$name','$price','$categoryID','$stock','$decs')";
 
         if ($con->query($sql)===true) {
-          echo "successfully";
           $name = mysqli_real_escape_string($con,$name);
           $user = $this->findIDbyName($name);
           $addpic = $this->addPicture($image,$user);

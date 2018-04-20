@@ -11,23 +11,23 @@ if (isset($_POST["pName"])) {
 	$pDecs = ($_POST["pDecs"]);
 
 	$img = array();
-	if(isset($_POST["pic1"])) {
+	if(!empty($_POST["pic1"])) {
 		array_push($img,"Product_image/".$_POST["pic1"]);
 	}
-	if(isset($_POST["pic2"])) {
+	if(!empty($_POST["pic2"])) {
 		array_push($img,"Product_image/".$_POST["pic2"]);
 	}
-	if(isset($_POST["pic3"])) {
+	if(!empty($_POST["pic3"])) {
 		array_push($img,"Product_image/".$_POST["pic3"]);
 	}
-	if(isset($_POST["pic4"])) {
+	if(!empty($_POST["pic4"])) {
 		array_push($img,"Product_image/".$_POST["pic4"]);
 	}
-	if(isset($_POST["pic5"])) {
+	if(!empty($_POST["pic5"])) {
 		array_push($img,"Product_image/".$_POST["pic5"]);
 	}
 
-	if(empty($pName) || empty($pPrice) || empty($pCategory) || empty($pStock) || empty($pDecs) || empty($img)) {
+	if(empty($pName) || empty($pPrice) || empty($pCategory) || empty($pStock) || empty($img)) {
     $_SESSION['message'] = "Please input all box";
   } elseif ($pStock < 0) {
 		$_SESSION['message'] = "Stock cannot less than 0";
@@ -86,7 +86,7 @@ if (isset($_POST["pName"])) {
 						<ul class="user-menu">
 							<li><a href="cart.html">Your Cart</a></li>
 							<li><a href="checkout.html">Checkout</a></li>
-							<li><a href="register.html">Login</a></li>
+							<li><a href="register.php">Login</a></li>
 						</ul>
 					</div>
 				</div>
@@ -100,9 +100,9 @@ if (isset($_POST["pName"])) {
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
-							<li><a href="./miniatureList.html">MINIATURE HOUSE</a></li>
-							<li><a href="./nendoroidList.html">NENDOROID</a></li>
-							<li><a href="./funkoList.html">FUNKO</a>	</li>
+							<li><a href="./miniatureList.php">MINIATURE HOUSE</a></li>
+							<li><a href="./nendoroidList.php">NENDOROID</a></li>
+							<li><a href="./funkoList.php">FUNKO</a>	</li>
 						</ul>
 					</nav>
 				</div>

@@ -2,30 +2,9 @@
 session_start();
 require_once('user.php');
 require_once('userdb.php');
-$_SESSION['status'] = '';
+
 $_SESSION['message'] = '';
-
-if (isset($_POST["name"])) {
-  $f_name = $_POST["name"];
-	$l_name = $_POST["lastname"];
-	$email = $_POST['email'];
-  $username = $_POST['username'];
-	$password = $_POST['password'];
-  $repassword = $_POST['repassword'];
-	$address = $_POST['address'];
-	$name = "/^[a-zA-Z ]+$/";
-
-  if(empty($f_name) || empty($l_name) || empty($email) || empty($password) || empty($username) || empty($address)) {
-    $_SESSION['message'] = "Please input all box";
-  } elseif ($password != $repassword){
-    $_SESSION['message'] = "Password doesn't match";
-  } else {
-    $user = new user;
-    $_SESSION['message'] = $user->register($username,$password,$f_name,$l_name,$address,$email);
-  }
-
-}
-
+$_SESSION['status'] = "Wrong password or username";
 
 ?>
 
