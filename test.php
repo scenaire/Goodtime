@@ -4,6 +4,7 @@ require "cart.php";
 require "order.php";
 require "user.php";
 require "product.php";
+require "productdb.php";
 
 //$user = new user("Tempesta","kwankang","จิรัชญา","ยี่โต๊ะ","36/20 ถนนมลิวรรณ ตำบล กุดป่อง อำเภอ เมือง จังหวัด เลย 42000","tempesta-psyzeoul@Hotmail.com");
 //$user = new user;
@@ -14,12 +15,23 @@ require "product.php";
 //echo $user->getCustomerbyUsername("Tempesta");
 
 //$obj = new product;
+$product = new product;
+$product->selectProduct(4);
+$imgall = $product->getImage();
+foreach ($imgall as $img ) {
+  $img = $img['ProductImage'];
+  print_r($img);
+  echo "<br><br>";
+}
 
 //$obj->selectProduct(34);
 //echo $obj->getStock();
 //echo "<br><br>";
 //echo $obj->setStock(20);
 //echo $obj->getStock();
+
+//$p = new productdb;
+//print_r($p->getAllCategory());
 
 //$obj->getProductFromCategory("Nendoroid");
 //$obj = new product;

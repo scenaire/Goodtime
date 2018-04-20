@@ -8,10 +8,10 @@ class productdb {
     if ($categoryID === null) {
       echo "Error";
     } else {
-      $name = $product->getName();
+      $name = mysqli_real_escape_string($con,$product->getName());
       $price = $product->getPrice();
       $stock = $product->getStock();
-      $decs = $product->getDecs();
+      $decs = mysqli_real_escape_string($con,$product->getDecs());
       $image = $product->getImage();
 
         $sql = "INSERT INTO product (ProductName,ProductPrice,ProductCategoryID,ProductStock,ProductDecs)
@@ -22,9 +22,10 @@ class productdb {
           $name = mysqli_real_escape_string($con,$name);
           $user = $this->findIDbyName($name);
           $addpic = $this->addPicture($image,$user);
+          return "Successful";
         }
         else {
-          echo "Error: ". $sql . "<br>" .$con->error;
+          return "Error: ". $sql . "<br>" .$con->error;
         }
 
         $con->close();
@@ -66,6 +67,17 @@ class productdb {
     require "db.php";
     $categoryID = $this->findCategoryID($categoryWord);
     $sql = "SELECT * FROM product WHERE ProductCategoryID = '$categoryID'";
+    $result = mysqli_query($con,$sql);
+    $arr = array();
+    while ($data = mysqli_fetch_array($result)) {
+      $arr[] = $data;
+    }
+    return $arr;
+  }
+
+  public function getAllCategory() {
+    require "db.php";
+    $sql = "SELECT CategoryName FROM productcategories";
     $result = mysqli_query($con,$sql);
     $arr = array();
     while ($data = mysqli_fetch_array($result)) {

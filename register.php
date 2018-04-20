@@ -32,7 +32,7 @@ if (isset($_POST["name"])) {
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Bootstrap E-commerce Templates</title>
+		<title>GOODTIME</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="">
 		<!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
@@ -77,11 +77,13 @@ if (isset($_POST["name"])) {
 		<div id="wrapper" class="container">
 			<section class="navbar main-menu">
 				<div class="navbar-inner main-menu">
-					<a href="index.html" class="logo pull-left"><img src="themes/images//goodtimelogo.png" class="site_logo" alt=""></a>
+          <div class="goodtimelogo">
+					<a href="index.html" class="logo pull-left">GOODTIME</a>
+				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
 							<li><a href="./miniatureList.html">MINIATURE HOUSE</a>	</li>
-							<li><a href="./nendoroidList.html">NENDOROID</a></li>
+							<li><a href="./nendoroidList.php">NENDOROID</a></li>
 							<li><a href="./funkoList.html">FUNKO</a></li>
 							<li><a href="./bestsellerList.html">Best Seller</a></li>
 						</ul>

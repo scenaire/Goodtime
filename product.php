@@ -14,7 +14,7 @@
       $this->stock = $stock;
       $this->decs = $decs;
       $productdb = new productdb;
-      $productdb->addItem($this);
+      return $productdb->addItem($this);
     }
 
     public function selectProduct($productID) {
@@ -28,6 +28,7 @@
       $this->stock = $temp['ProductStock'];
       $this->decs = $temp['ProductDecs'];
       $this->image = $productdb->getProductImage($productID);
+      return $this;
     }
 
     public function getPrice() {
