@@ -131,8 +131,8 @@ require_once('productdb.php');
 																	<span class='sale_tag'></span>
 																	<p><a href='product_detail.php?pid=$pid'><img src='$pimage'></a></p>
 																	<a href='product_detail.php' class='title'>".$pname."</a><br/>
-																	<a href=$link class='category'>".$pcategory."</a>
-																	<p class='price'>".$pprice."</p>
+																	<a href=$link class='category'>".$pcategory." </a>
+																	<p class='price'>".$pprice." BAHT</p>
 																</div>
 															</li>";
 														}
@@ -169,7 +169,7 @@ require_once('productdb.php');
 																<p><a href='product_detail.php?pid=$pid'><img src='$pimage'></a></p>
 																<a href='product_detail.php' class='title'>".$pname."</a><br/>
 																<a href=$link class='category'>".$pcategory."</a>
-																<p class='price'>".$pprice."</p>
+																<p class='price'>".$pprice." BAHT</p>
 															</div>
 														</li>";
 													}

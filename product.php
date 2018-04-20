@@ -27,6 +27,7 @@
       $this->category = $temp['ProductCategoryID'];
       $this->stock = $temp['ProductStock'];
       $this->decs = $temp['ProductDecs'];
+      $this->categoryword = $productdb->findCategoryName($this->category);
       $this->image = $productdb->getProductImage($productID);
     }
 

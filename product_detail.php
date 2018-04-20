@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('product.php');
+require_once('productdb.php');
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -127,6 +128,81 @@ require_once('product.php');
 					</div>
 				</div>
 			</section>
+
+      <section class="main-content">
+				<div class="row">
+					<div class="span12">
+						<div class="row">
+							<div class="span12">
+								<h4 class="title">
+									<span class="pull-left"><span class="text"><span class="line"><strong>Suggest Products</strong></span></span></span>
+									<span class="pull-right">
+
+									</span>
+								</h4>
+								<div id="myCarousel" class="myCarousel carousel slide">
+									<div class="carousel-inner">
+										<div class="active item">
+											<ul class="thumbnails">
+
+												<?php
+                            $pid = $_GET['pid'];
+                            $product = new product;
+                            $product->selectProduct($pid);
+                            $cat = $product->getCategoryWord();
+
+														$productList = new productdb;
+														$arr = $productList->getProductbyCategory($cat);
+														$arr2 = $productList->custom_shuffle($arr);
+														$arr3 = $productList->slice_ar($arr2,0,4);
+
+														foreach ($arr3 as $a) {
+															$pid = $a["ProductID"];
+															$pname = $a["ProductName"];
+															$pprice = $a["ProductPrice"];
+															$category = $a["ProductCategoryID"];
+															$pcategory = $productList->findCategoryName($category);
+															$pimage = $productList->getProductImage($pid);
+															$pimage = $pimage[0];
+															$pimage = $pimage["ProductImage"];
+
+															switch ($category) {
+																case 1:
+																	$link = "miniatureList.php";
+																	break;
+																	case 2:
+																		$link = "nendoroidList.php";
+																		break;
+																		case 3:
+																			$link = "funkoList.php";
+																			break;
+																			default: $link = "product_detail.php";
+															}
+
+															echo "<li class='span3'>
+																<div class='product-box'>
+																	<span class='sale_tag'></span>
+																	<p><a href='product_detail.php?pid=$pid'><img src='$pimage'></a></p>
+																	<a href='product_detail.php' class='title'>".$pname."</a><br/>
+																	<a href=$link class='category'>".$pcategory."</a>
+																	<p class='price'>".$pprice." BAHT</p>
+																</div>
+															</li>";
+														}
+												 ?>
+
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<br/>
+					</div>
+				</div>
+			</section>
+
 
 		</div>
 		<script src="themes/js/common.js"></script>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2018 at 04:55 PM
+-- Generation Time: Apr 20, 2018 at 05:53 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -71,7 +71,10 @@ INSERT INTO `product` (`ProductID`, `ProductName`, `ProductPrice`, `ProductCateg
 (13, 'Nendoroid Mikasa Ackerman', 1690, 2, 6, '<strong>\"If we don\'t fight, we can\'t win.\"</strong><br><br>\r\nFrom the anime series \'Attack on Titan\' comes a Nendoroid of Mikasa Ackerman! She comes with three expressions including her standard expression, a shouting expression and a stunned expression. The Nendoroid also includes her Vertical Maneuvering Equipment and dual blades, as well as effect parts to display her soaring through the air with the equipment.<br><br>\r\n\r\nYou can even pose her as if she were striking down into a Titan\'s neck by making use of the included blood effect parts which attach to her blades. The scarf that Eren gave her is also included to create even more scenes from the series.'),
 (14, 'Nendoroid Iroha Tamaki', 1790, 2, 8, '<strong>\"Hold on, Ui. Your big sister will find you.\"</strong><br><br>\r\nFrom Puella Magi Madoka Magica Side Story: Magia Record comes a Nendoroid of Iroha Tamaki, the character in search of her younger sister Ui, who disappeared in Kamihama city.<br><br>\r\n\r\nShe comes with three different face plates including her standard expression, a confident combat expression as well as a worried expression. Optional parts include her crossbow together with special effect parts to display her firing it, as well as a little Kyubey figure. Recreate all sorts of situations in Nendoroid size!'),
 (15, 'Pop! Movies: Ready Player One - Perzival', 690, 3, 15, '<strong>Product Features</strong><br>\r\n• 3.75 inches (9.5cm)<br>\r\n• Made of vinyl<br>\r\n• Urban stylized design<br>\r\n• Based on the Ready Player One movie<br>\r\n• Comes in window-box packaging<br><br>\r\n\r\nFrom Ready Player One comes this series of Pop! Featuring Parzival, Aech, Art3mis, Daito, and Sho as they race to be first to the Easter Egg. Also collect Sorrento, an IOI employee Sixer, and i-R0k as he attempts to blackmail Parzival and Aech on their quest to find the keys!<br><br>\r\n\r\nPop! figures bring your favorite Ready Player One characters to life with a unique stylized design. Each vinyl figure stands 3.75 inches tall and comes in window box packaging, making them great for display!'),
-(16, 'Pop! Movies: IT Pennywise', 690, 3, 6, '<strong>Product Features</strong><br>\r\n• 3.75 inches (9.5cm)<br>\r\n• Made of vinyl<br>\r\n• From the movie IT<br>\r\n• Featuring Pennywise as a non-articulated figure<br>\r\n• Comes in window-box packaging<br><br>\r\nOne of the most terrifying clowns is recreated in its vinyl format! It Pennywise Vinyl! Pop Figure is a great addition to your horror movie collection.');
+(16, 'Pop! Movies: IT Pennywise', 690, 3, 6, '<strong>Product Features</strong><br>\r\n• 3.75 inches (9.5cm)<br>\r\n• Made of vinyl<br>\r\n• From the movie IT<br>\r\n• Featuring Pennywise as a non-articulated figure<br>\r\n• Comes in window-box packaging<br><br>\r\nOne of the most terrifying clowns is recreated in its vinyl format! It Pennywise Vinyl! Pop Figure is a great addition to your horror movie collection.'),
+(17, 'Miniature Dollhouse With Furnitures Wooden House Toys', 1800, 1, 4, '<strong>Description:</strong><br>\r\nItem Type: Dollhouses<br>\r\nGender: Unisex<br>\r\nAge Range: 12-15 Years,8-11 Years,Grownups<br>\r\nColor: Multicolor<br>\r\nWarning: not suit for 3 years old<br>\r\nBrand Name: CUTEBEE<br>\r\nDimensions: 33.5*22.5*27.5cm<br>\r\nMaterial: Wood<br>\r\nModel Number: doll house'),
+(18, 'Greenhouse DIY Dollhouse Wooden Doll Houses', 1500, 1, 3, '<strong>Description:</strong><br>\r\nItem Type: Dollhouses<br>\r\nWarning: no fire<br>\r\nGender: Unisex<br>\r\nAge Range: 12-15 Years,8-11 Years,Grownups<br>\r\nColor: Multicolor<br>\r\nDimensions: 35*22*22cm<br>\r\nBrand Name: CUTEBEE<br>\r\nMaterial: Wood<br>\r\nModel Number: doll house<br>\r\ntype: Assembled<br>\r\nneed time: 0.5-1 days<br>\r\nSuitable for the crowd: child /lover/friend<br><br>\r\n\r\n<strong>You will get:</strong><br>\r\n1.LED light<br>\r\n2.All furnitures the same as picture shown! Doll house assembly parts will be shipped,and you need to assemble them together in following English instruction!<br><br>\r\n\r\n<strong>Size:</strong><br>\r\n1.Scale: 1:24<br>\r\n2.Dollhouse Size:35(L) x22(W)x22(H) cm<br>\r\n3.Net Weight:1.5 kg<br>\r\nMaterial: wood, fabric, paper, plastic,matel<br>\r\nManual: English instruction<br><br>\r\n\r\n<strong>Note:</strong><br>\r\n1.Age:apply above 10 years old<br>\r\n2.dust cover/glue/tools/battery not include in parcel<br>\r\n3.handcraft tools needed: paper scissors, knife,hole maker,precision tweezers,screw driver , adhesive'),
+(19, 'Valencia Coast with Light/Anti-dust cover', 2800, 1, 6, '<strong>Product Description:</strong><br>\r\n\r\nLuxury Valencia Coast Villa DIY Cottage, beautiful style and cool light.<br> \r\nYou need to complete the assembly by yourself, the production process is more interesting, and there is a sense <br>\r\nof accomplishment after completion <br>\r\nThe finished size is about 35.5 * 29 * 39 cm / 13.98 * 11.42 * 15.35\'\' <br>\r\nWith LED lights, better effects at night. <br>\r\nWith music movements. ');
 
 -- --------------------------------------------------------
 
@@ -164,7 +167,20 @@ INSERT INTO `productimage` (`ProductImageID`, `ProductID`, `ProductImage`) VALUE
 (55, 14, 'Product_image/Iroha4.jpg'),
 (56, 14, 'Product_image/Iroha5.jpg'),
 (57, 15, 'Product_image/perzivalfunko.png'),
-(58, 16, 'Product_image/12.jpg');
+(58, 16, 'Product_image/12.jpg'),
+(59, 17, 'Product_image/blue1.jpg'),
+(60, 17, 'Product_image/blue2.jpg'),
+(61, 17, 'Product_image/blue3.jpg'),
+(62, 17, 'Product_image/blue4.jpg'),
+(63, 18, 'Product_image/greenhouse1.jpg'),
+(64, 18, 'Product_image/greenhouse12.jpg'),
+(65, 18, 'Product_image/greenhouse3.jpg'),
+(66, 18, 'Product_image/greenhouse4.jpg'),
+(67, 19, 'Product_image/valencia1.jpg'),
+(68, 19, 'Product_image/valencia2.jpg'),
+(69, 19, 'Product_image/valencia3.jpg'),
+(70, 19, 'Product_image/valencia4.jpg'),
+(71, 19, 'Product_image/valencia5.jpg');
 
 -- --------------------------------------------------------
 
@@ -243,7 +259,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `ProductID` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `ProductID` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `productcategories`
@@ -255,7 +271,7 @@ ALTER TABLE `productcategories`
 -- AUTO_INCREMENT for table `productimage`
 --
 ALTER TABLE `productimage`
-  MODIFY `ProductImageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `ProductImageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- Constraints for dumped tables
