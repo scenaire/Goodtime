@@ -18,12 +18,12 @@ class user {
     $userdb = new userdb;
     if ($userdb->check_login($username,$password)) {
       $temp = $userdb->getCustomer($username,$password);
-      //$this->fname = $temp['CustFName'];
-      //$this->lname = $temp['CustLName'];
-      //$this->address = $temp['CustAddress'];
-      //$this->email = $temp['CustEmail'];
-      //$this->username = $username;
-      //$this->password = $password;
+      $this->fname = $temp['CustFName'];
+      $this->lname = $temp['CustLName'];
+      $this->address = $temp['CustAddress'];
+      $this->email = $temp['CustEmail'];
+      $this->username = $username;
+      $this->password = $password;
       return true;
     } else {
       return false;

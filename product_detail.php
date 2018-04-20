@@ -54,7 +54,7 @@ require_once('product.php');
 			<section class="navbar main-menu">
 				<div class="navbar-inner main-menu">
 					<div class="goodtimelogo">
-					<a href="index.html" class="logo pull-left">GOODTIME</a>
+					<a href="index.php" class="logo pull-left">GOODTIME</a>
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>

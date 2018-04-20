@@ -1,3 +1,9 @@
+<?php
+session_start();
+require_once('productdb.php');
+
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -37,9 +43,9 @@
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">
-							<li><a href="cart.html">Your Cart</a></li>
+							<li><a href="cart.php">Your Cart</a></li>
 							<li><a href="checkout.html">Checkout</a></li>
-							<li><a href="register.html">Login</a></li>
+							<li><a href="register.php">Login</a></li>
 						</ul>
 					</div>
 				</div>
@@ -53,9 +59,9 @@
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
-							<li><a href="./miniatureList.html">MINIATURE HOUSE</a></li>
+							<li><a href="./miniatureList.php">MINIATURE HOUSE</a></li>
 							<li><a href="./nendoroidList.php">NENDOROID</a></li>
-							<li><a href="./funkoList.html">FUNKO</a></li>
+							<li><a href="./funkoList.php">FUNKO</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -73,8 +79,7 @@
 				</div>
 			</section>
 			<section class="header_text">
-				We stand for top quality templates. Our genuine developers always optimized bootstrap commercial templates.
-				<br/>Don't miss to use our cheap abd best bootstrap templates.
+			○	GOODTIME TOGETHER ○
 			</section>
 			<section class="main-content">
 				<div class="row">
@@ -91,76 +96,85 @@
 									<div class="carousel-inner">
 										<div class="active item">
 											<ul class="thumbnails">
-												<li class="span3">
-													<div class="product-box">
-														<span class="sale_tag"></span>
-														<p><a href="product_detail.html"><img src="themes/images/ladies/1.jpg" alt="" /></a></p>
-														<a href="product_detail.html" class="title">Ut wisi enim ad</a><br/>
-														<a href="products.html" class="category">Commodo consequat</a>
-														<p class="price">$17.25</p>
-													</div>
-												</li>
-												<li class="span3">
-													<div class="product-box">
-														<span class="sale_tag"></span>
-														<p><a href="product_detail.html"><img src="themes/images/ladies/10.jpg" alt="" /></a></p>
-														<a href="product_detail.html" class="title">Quis nostrud exerci tation</a><br/>
-														<a href="products.html" class="category">Quis nostrud</a>
-														<p class="price">$32.50</p>
-													</div>
-												</li>
-												<li class="span3">
-													<div class="product-box">
-														<p><a href="product_detail.html"><img src="themes/images/ladies/3.jpg" alt="" /></a></p>
-														<a href="product_detail.html" class="title">Know exactly turned</a><br/>
-														<a href="products.html" class="category">Quis nostrud</a>
-														<p class="price">$14.20</p>
-													</div>
-												</li>
-												<li class="span3">
-													<div class="product-box">
-														<p><a href="product_detail.html"><img src="themes/images/ladies/4.jpg" alt="" /></a></p>
-														<a href="product_detail.html" class="title">You think fast</a><br/>
-														<a href="products.html" class="category">World once</a>
-														<p class="price">$31.45</p>
-													</div>
-												</li>
-											</ul>
-										</div>
-										<div class="item">
-											<ul class="thumbnails">
-												<li class="span3">
-													<div class="product-box">
-														<p><a href="product_detail.html"><img src="themes/images/ladies/5.jpg" alt="" /></a></p>
-														<a href="product_detail.html" class="title">Know exactly</a><br/>
-														<a href="products.html" class="category">Quis nostrud</a>
-														<p class="price">$22.30</p>
-													</div>
-												</li>
-												<li class="span3">
-													<div class="product-box">
-														<p><a href="product_detail.html"><img src="themes/images/ladies/6.jpg" alt="" /></a></p>
-														<a href="product_detail.html" class="title">Ut wisi enim ad</a><br/>
-														<a href="products.html" class="category">Commodo consequat</a>
-														<p class="price">$40.25</p>
-													</div>
-												</li>
-												<li class="span3">
-													<div class="product-box">
-														<p><a href="product_detail.html"><img src="themes/images/ladies/7.jpg" alt="" /></a></p>
-														<a href="product_detail.html" class="title">You think water</a><br/>
-														<a href="products.html" class="category">World once</a>
-														<p class="price">$10.45</p>
-													</div>
-												</li>
-												<li class="span3">
-													<div class="product-box">
-														<p><a href="product_detail.html"><img src="themes/images/ladies/8.jpg" alt="" /></a></p>
-														<a href="product_detail.html" class="title">Quis nostrud exerci</a><br/>
-														<a href="products.html" class="category">Quis nostrud</a>
-														<p class="price">$35.50</p>
-													</div>
-												</li>
+
+												<?php
+														$productList = new productdb;
+														$arr = $productList->getAllProduct();
+														$arr2 = $productList->custom_shuffle($arr);
+														$arr3 = $productList->slice_ar($arr2,0,4);
+
+														foreach ($arr3 as $a) {
+															$pid = $a["ProductID"];
+															$pname = $a["ProductName"];
+															$pprice = $a["ProductPrice"];
+															$category = $a["ProductCategoryID"];
+															$pcategory = $productList->findCategoryName($category);
+															$pimage = $productList->getProductImage($pid);
+															$pimage = $pimage[0];
+															$pimage = $pimage["ProductImage"];
+
+															switch ($category) {
+																case 1:
+																	$link = "miniatureList.php";
+																	break;
+																	case 2:
+																		$link = "nendoroidList.php";
+																		break;
+																		case 3:
+																			$link = "funkoList.php";
+																			break;
+																			default: $link = "product_detail.php";
+															}
+
+															echo "<li class='span3'>
+																<div class='product-box'>
+																	<span class='sale_tag'></span>
+																	<p><a href='product_detail.php?pid=$pid'><img src='$pimage'></a></p>
+																	<a href='product_detail.php' class='title'>".$pname."</a><br/>
+																	<a href=$link class='category'>".$pcategory."</a>
+																	<p class='price'>".$pprice."</p>
+																</div>
+															</li>";
+														}
+													echo "	</ul></div><div class='item'><ul class='thumbnails'>";
+
+													$arr3 = $productList->slice_ar($arr2,4,8);
+
+													foreach ($arr3 as $a) {
+														$pid = $a["ProductID"];
+														$pname = $a["ProductName"];
+														$pprice = $a["ProductPrice"];
+														$category = $a["ProductCategoryID"];
+														$pcategory = $productList->findCategoryName($category);
+														$pimage = $productList->getProductImage($pid);
+														$pimage = $pimage[0];
+														$pimage = $pimage["ProductImage"];
+
+														switch ($category) {
+															case 1:
+																$link = "miniatureList.php";
+																break;
+																case 2:
+																	$link = "nendoroidList.php";
+																	break;
+																	case 3:
+																		$link = "funkoList.php";
+																		break;
+																		default: $link = "product_detail.php";
+														}
+
+														echo "<li class='span3'>
+															<div class='product-box'>
+																<span class='sale_tag'></span>
+																<p><a href='product_detail.php?pid=$pid'><img src='$pimage'></a></p>
+																<a href='product_detail.php' class='title'>".$pname."</a><br/>
+																<a href=$link class='category'>".$pcategory."</a>
+																<p class='price'>".$pprice."</p>
+															</div>
+														</li>";
+													}
+												 ?>
+
 											</ul>
 										</div>
 									</div>

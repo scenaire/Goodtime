@@ -43,7 +43,7 @@ require_once('productdb.php');
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">
-							<li><a href="cart.html">Your Cart</a></li>
+							<li><a href="cart.php">Your Cart</a></li>
 							<li><a href="checkout.html">Checkout</a></li>
 							<li><a href="register.php">Login</a></li>
 						</ul>

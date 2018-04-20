@@ -84,9 +84,8 @@ if (isset($_POST["pName"])) {
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">
-							<li><a href="cart.html">Your Cart</a></li>
-							<li><a href="checkout.html">Checkout</a></li>
-							<li><a href="register.php">Login</a></li>
+							<li>Hey! Admin.</li>
+							<li><a href="index.php">Log out</a></li>
 						</ul>
 					</div>
 				</div>

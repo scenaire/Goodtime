@@ -15,14 +15,34 @@ require "productdb.php";
 //echo $user->getCustomerbyUsername("Tempesta");
 
 //$obj = new product;
-$product = new product;
-$product->selectProduct(4);
-$imgall = $product->getImage();
-foreach ($imgall as $img ) {
-  $img = $img['ProductImage'];
-  print_r($img);
-  echo "<br><br>";
-}
+//$product = new product;
+//$product->selectProduct(4);
+//$imgall = $product->getImage();
+//foreach ($imgall as $img ) {
+//  $img = $img['ProductImage'];
+//  print_r($img);
+//  echo "<br><br>";
+//}
+
+$productList = new productdb;
+$arr = $productList->getAllProduct();
+$arr2 = $productList->custom_shuffle($arr);
+foreach ($arr2 as $a) {
+  $pname = $a["ProductName"];
+  echo $pname."<br>";
+
+  }
+
+echo "<br>after slice<br><br>";
+
+$arr3 = $productList->slice_ar($arr2,0,4);
+foreach ($arr3 as $a) {
+
+  $pname = $a["ProductName"];
+  echo $pname."<br>";
+
+  }
+
 
 //$obj->selectProduct(34);
 //echo $obj->getStock();
