@@ -1,6 +1,7 @@
 <?php
 
 require "cart.php";
+require "cartdb.php";
 require "order.php";
 require "user.php";
 require "product.php";
@@ -24,7 +25,7 @@ require "productdb.php";
 //  echo "<br><br>";
 //}
 
-$productList = new productdb;
+/*$productList = new productdb;
 $arr = $productList->getAllProduct();
 $arr2 = $productList->custom_shuffle($arr);
 foreach ($arr2 as $a) {
@@ -41,7 +42,28 @@ foreach ($arr3 as $a) {
   $pname = $a["ProductName"];
   echo $pname."<br>";
 
-  }
+}*/
+
+$cart = new cart("scenaire");
+print_r($cart->getCart());
+echo "<br><br>";
+
+echo $key = array_search(50,array_column($cart->getCart(),'ProductID'));
+
+if ($key === false) {
+  echo "<br><br>false";
+}
+
+
+//$cart = new cartdb;
+//echo $cart->updateItem("scenaire",22,3);;
+
+
+/*$product = new product();
+$product->selectProduct(11);
+$pimg = $product->getImage();
+$pimg = $pimg[0];
+print_r($pimg);*/
 
 
 //$obj->selectProduct(34);

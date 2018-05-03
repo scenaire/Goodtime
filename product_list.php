@@ -43,9 +43,25 @@ require_once('productdb.php');
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">
-							<li><a href="cart.php">Your Cart</a></li>
-							<li><a href="checkout.html">Checkout</a></li>
-							<li><a href="register.php">Login</a></li>
+              <?php
+              if (isset($_SESSION['uid'])){
+                if ($_SESSION['uid'] == "admin"){
+                  echo "<b>Hey! ".$_SESSION['uid']."</b>
+   							<li><a href='addProduct.php'>Add Product</a></li>
+   							<li><a href='logout.php'>Logout</a></li>";
+                }
+                else {
+                  echo "<b>Hey! ".$_SESSION['uid']."</b>
+   							<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>
+   							<li><a href='checkout.html'>Checkout</a></li>
+   							<li><a href='logout.php'>Logout</a></li>";
+                }
+            } else {
+              echo "<li><a href='cart.html'>Your Cart</a></li>
+							<li><a href='checkout.html'>Checkout</a></li>
+							<li><a href='register.php'>Login</a></li>";
+            }
+               ?>
 						</ul>
 					</div>
 				</div>
@@ -59,16 +75,30 @@ require_once('productdb.php');
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
-							<li><a href="./miniatureList.php">MINIATURE HOUSE</a></li>
-							<li><a href="./nendoroidList.php">NENDOROID</a></li>
-							<li><a href="./funkoList.php">FUNKO</a></li>
+              <?php
+              $productdb = new productdb;
+              $list = $productdb->getAllCategory();
+
+              foreach ($list as $val) {
+                $key = $val['CategoryID'];
+                $cat = $val['CategoryName'];
+                echo "<li><a href='./product_list.php?pl=$key'>$cat</a></li>";
+              }
+
+               ?>
 						</ul>
 					</nav>
 				</div>
 			</section>
 			<section class="header_text sub">
-			<img class="pageBanner" src="Product_image/0.jpg" alt="New products" >
-				<h4><span>NENDOROID</span></h4>
+          <?php
+            $id = $_GET['pl'];
+            $p = new productdb;
+
+            echo "	<img class='pageBanner' src='".$p->findCatagoryHeader($id)."' alt='New products'>
+        				<h4><span>".$p->findCategoryName($id);
+          ?>
+      </span></h4>
 			</section>
 			<section class="main-content">
 
@@ -76,24 +106,31 @@ require_once('productdb.php');
 					<div class="span9">
 						<ul class="thumbnails listing-products">
 							<?php
-							$productList = new productdb;
-							$arr = $productList->getProductbyCategory("Nendoroid");
-							foreach ($arr as $a) {
-								$pid = $a["ProductID"];
-								$pname = $a["ProductName"];
-								$pprice = $a["ProductPrice"];
-								$pimage = $productList->getProductImage($pid);
-								$pimage = $pimage[0];
-								$pimage = $pimage["ProductImage"];
-							echo "<li class='span3'>
-									<div class='product-box'>
-										<span class='sale_tag'></span>
-										<a href='product_detail.php?pid=$pid'><img alt='' src='$pimage'></a><br/>
-										<a href='product_detail.php?pid=$pid' class='title'>$pname</a><br/>
-										<p class='price'>$pprice BAHT</p>
-									</div>
-								</li>";
-							}
+
+              if (isset($_GET['pl'])) {
+                $id = $_GET['pl'];
+                $productList = new productdb;
+                $arr = $productList->getProductbyCategory($id);
+                $arr = array_reverse($arr);
+
+                foreach ($arr as $a) {
+                  $pid = $a["ProductID"];
+                  $pname = $a["ProductName"];
+                  $pprice = $a["ProductPrice"];
+                  $pimage = $productList->getProductImage($pid);
+                  $pimage = $pimage[0];
+                  $pimage = $pimage["ProductImage"];
+                echo "<li class='span3'>
+                    <div class='product-box'>
+                      <span class='sale_tag'></span>
+                      <a href='product_detail.php?pid=$pid'><img alt='' src='$pimage'></a><br/>
+                      <a href='product_detail.php?pid=$pid' class='title'>$pname</a><br/>
+                      <p class='price'>$pprice BAHT</p>
+                    </div>
+                  </li>";
+                }
+              }
+
 							 ?>
 						</ul>
 						<hr>

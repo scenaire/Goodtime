@@ -2,6 +2,7 @@
 session_start();
 require_once('user.php');
 require_once('userdb.php');
+require_once('productdb.php');
 $_SESSION['status'] = '';
 $_SESSION['message'] = '';
 
@@ -68,9 +69,25 @@ if (isset($_POST["name"])) {
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">
-							<li><a href="cart.html">Your Cart</a></li>
-							<li><a href="checkout.html">Checkout</a></li>
-							<li><a href="register.php">Login</a></li>
+              <?php
+              if (isset($_SESSION['uid'])){
+                if ($_SESSION['uid'] == "admin"){
+                  echo "<b>Hey! ".$_SESSION['uid']."</b>
+                <li><a href='addProduct.php'>Add Product</a></li>
+                <li><a href='logout.php'>Logout</a></li>";
+                }
+                else {
+                  echo "<b>Hey! ".$_SESSION['uid']."</b>
+                <li><a href='cart-site.php'>Your Cart</a></li>
+                <li><a href='checkout.html'>Checkout</a></li>
+                <li><a href='logout.php'>Logout</a></li>";
+                }
+            } else {
+              echo "<li><a href='cart.html'>Your Cart</a></li>
+              <li><a href='checkout.html'>Checkout</a></li>
+              <li><a href='register.php'>Login</a></li>";
+            }
+               ?>
 						</ul>
 					</div>
 				</div>
@@ -84,10 +101,17 @@ if (isset($_POST["name"])) {
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
-							<li><a href="./miniatureList.php">MINIATURE HOUSE</a>	</li>
-							<li><a href="./nendoroidList.php">NENDOROID</a></li>
-							<li><a href="./funkoList.php">FUNKO</a></li>
-							<li><a href="./bestsellerList.html">Best Seller</a></li>
+              <?php
+							$productdb = new productdb;
+							$list = $productdb->getAllCategory();
+
+							foreach ($list as $val) {
+								$key = $val['CategoryID'];
+								$cat = $val['CategoryName'];
+								echo "<li><a href='./product_list.php?pl=$key'>$cat</a></li>";
+							}
+
+							 ?>
 						</ul>
 					</nav>
 				</div>

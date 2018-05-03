@@ -2,6 +2,10 @@
 session_start();
 require_once('productdb.php');
 
+if(isset($_SESSION["uid"])){
+	header("location:profile.php");
+}
+
  ?>
 
 <!DOCTYPE html>
@@ -43,8 +47,6 @@ require_once('productdb.php');
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">
-							<li><a href="cart.php">Your Cart</a></li>
-							<li><a href="checkout.html">Checkout</a></li>
 							<li><a href="register.php">Login</a></li>
 						</ul>
 					</div>
@@ -55,13 +57,21 @@ require_once('productdb.php');
 			<section class="navbar main-menu">
 				<div class="navbar-inner main-menu">
 					<div class="goodtimelogo">
-					<a href="index.html" class="logo pull-left">GOODTIME</a>
+					<a href="index.php" class="logo pull-left">GOODTIME</a>
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
-							<li><a href="./miniatureList.php">MINIATURE HOUSE</a></li>
-							<li><a href="./nendoroidList.php">NENDOROID</a></li>
-							<li><a href="./funkoList.php">FUNKO</a></li>
+							<?php
+              $productdb = new productdb;
+              $list = $productdb->getAllCategory();
+
+              foreach ($list as $val) {
+                $key = $val['CategoryID'];
+                $cat = $val['CategoryName'];
+                echo "<li><a href='./product_list.php?pl=$key'>$cat</a></li>";
+              }
+
+               ?>
 						</ul>
 					</nav>
 				</div>

@@ -2,6 +2,8 @@
 
 session_start();
 require_once('product.php');
+require_once('productdb.php');
+
 $_SESSION['message'] = '';
 if (isset($_POST["pName"])) {
 	$pName = ($_POST["pName"]);
@@ -68,6 +70,7 @@ if (isset($_POST["pName"])) {
 		<script src="themes/js/superfish.js"></script>
 		<script src="themes/js/jquery.scrolltotop.js"></script>
 		<script src="themes/js/jquery.fancybox.js"></script>
+		<script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 		<!--[if lt IE 9]>
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 			<script src="js/respond.min.js"></script>
@@ -84,8 +87,11 @@ if (isset($_POST["pName"])) {
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">
-							<li>Hey! Admin.</li>
-							<li><a href="index.php">Log out</a></li>
+							<?php
+							echo "<b>Hey! ".$_SESSION['uid']."</b>
+						<li><a href='addProduct.php'>Add Product</a></li>
+						<li><a href='logout.php'>Logout</a></li>";
+							 ?>
 						</ul>
 					</div>
 				</div>
@@ -95,13 +101,21 @@ if (isset($_POST["pName"])) {
 			<section class="navbar main-menu">
 				<div class="navbar-inner main-menu">
 					<div class="goodtimelogo">
-					<a href="index.html" class="logo pull-left">GOODTIME</a>
+					<a href="index.php" class="logo pull-left">GOODTIME</a>
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
-							<li><a href="./miniatureList.php">MINIATURE HOUSE</a></li>
-							<li><a href="./nendoroidList.php">NENDOROID</a></li>
-							<li><a href="./funkoList.php">FUNKO</a>	</li>
+							<?php
+							$productdb = new productdb;
+							$list = $productdb->getAllCategory();
+
+							foreach ($list as $val) {
+								$key = $val['CategoryID'];
+								$cat = $val['CategoryName'];
+								echo "<li><a href='./product_list.php?pl=$key'>$cat</a></li>";
+							}
+
+							 ?>
 						</ul>
 					</nav>
 				</div>
@@ -139,9 +153,17 @@ if (isset($_POST["pName"])) {
                           <label class="control-label">Category:</label>
                           <div class="controls">
 														<select name="pGroup">
-															<option value="Funko">Funko</option>
-															<option value="Nendoroid">Nendoroid</option>
-															<option value="Miniature House">Miniature house</option>
+															<?php
+															$db = new productdb;
+															$list = $db->getAllCategory();
+
+															foreach ($list as $key) {
+																$val = $key['CategoryName'];
+																echo "<option value='$val'>$val</option>";
+															}
+
+															 ?>
+
 														</select>
                             </div>
                       </div>
@@ -155,9 +177,10 @@ if (isset($_POST["pName"])) {
 
                       <div class="control-group">
                         <label class="control-label">Description:</label>
-                        <div class="controls">
-                          <textarea name="pDecs" rows="4" cols="50"></textarea>
-                        </div>
+
+												<div class="controls" align="left">
+           									<textarea name="pDecs" class="ckeditor" cols="69" rows="5"></textarea>
+          						</div>
                       </div>
                         <from action="/action_page.php">
                           <input type="file" name="pic1" accept="image/*" value="Browse..">

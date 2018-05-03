@@ -31,6 +31,18 @@ class user {
 
   }
 
+  public function selectUser($user) {
+    require_once('userdb.php');
+    $userdb = new userdb;
+    $temp = $userdb->getCustomer($user);
+    $this->fname = $temp['CustFName'];
+    $this->lname = $temp['CustLName'];
+    $this->address = $temp['CustAddress'];
+    $this->email = $temp['CustEmail'];
+    $this->username = $user;
+    $this->password = $temp['password'];
+  }
+
   public function getEmail() {
     return $this->email;
   }

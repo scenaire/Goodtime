@@ -13,11 +13,13 @@ Class order {
   }
 
   public function getOrderbyTrxID($trxid) {
+    require_once('orderdb.php');
     $orderdb = new orderdb;
     $orderArr = $orderdb->getOrderbyTrxID($trxID);
   }
 
   public function getOrderbyUsername() {
+    require_once('orderdb.php');
     $orderdb = new orderdb;
     $orderArr = $orderdb->getOrderbyUsername($customer);
   }

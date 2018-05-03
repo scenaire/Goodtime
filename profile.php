@@ -1,8 +1,9 @@
 <?php
 session_start();
-require_once('product.php');
 require_once('productdb.php');
+require_once('user.php');
  ?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -11,22 +12,21 @@ require_once('productdb.php');
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="">
 		<!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
-
 		<!-- bootstrap -->
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+
 		<link href="themes/css/bootstrappage.css" rel="stylesheet"/>
 
 		<!-- global styles -->
+		<link href="themes/css/flexslider.css" rel="stylesheet"/>
 		<link href="themes/css/main.css" rel="stylesheet"/>
-		<link href="themes/css/jquery.fancybox.css" rel="stylesheet"/>
 
 		<!-- scripts -->
 		<script src="themes/js/jquery-1.7.2.min.js"></script>
 		<script src="bootstrap/js/bootstrap.min.js"></script>
 		<script src="themes/js/superfish.js"></script>
 		<script src="themes/js/jquery.scrolltotop.js"></script>
-		<script src="themes/js/jquery.fancybox.js"></script>
 		<!--[if lt IE 9]>
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 			<script src="js/respond.min.js"></script>
@@ -36,7 +36,7 @@ require_once('productdb.php');
 		<div id="top-bar" class="container">
 			<div class="row">
 				<div class="span4">
-				<!--	<form method="POST" class="search_form">
+				<!--<form method="POST" class="search_form">
 						<input type="text" class="input-block-level search-query" Placeholder="eg. T-sirt">
 					</form>-->
 				</div>
@@ -44,24 +44,20 @@ require_once('productdb.php');
 					<div class="account pull-right">
 						<ul class="user-menu">
               <?php
-              if (isset($_SESSION['uid'])){
-                if ($_SESSION['uid'] == "admin"){
+                if ($_SESSION['uid'] == "admin") {
                   echo "<b>Hey! ".$_SESSION['uid']."</b>
    							<li><a href='addProduct.php'>Add Product</a></li>
    							<li><a href='logout.php'>Logout</a></li>";
                 }
                 else {
                   echo "<b>Hey! ".$_SESSION['uid']."</b>
-   							<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>
-   							<li><a href='checkout.html'>Checkout</a></li>
-   							<li><a href='logout.php'>Logout</a></li>";
+                <li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>
+                <li><a href='checkout.html'>Checkout</a></li>
+                <li><a href='logout.php'>Logout</a></li>";
                 }
-            } else {
-              echo "<li><a href='cart.html'>Your Cart</a></li>
-							<li><a href='checkout.html'>Checkout</a></li>
-							<li><a href='register.php'>Login</a></li>";
-            }
+
                ?>
+
 						</ul>
 					</div>
 				</div>
@@ -75,6 +71,7 @@ require_once('productdb.php');
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
+
               <?php
               $productdb = new productdb;
               $list = $productdb->getAllCategory();
@@ -86,86 +83,36 @@ require_once('productdb.php');
               }
 
                ?>
+
+
 						</ul>
 					</nav>
 				</div>
 			</section>
-			<section class="header_text sub">
-				<?php $pid = $_GET['pid'];
-				$product = new product;
-				$product->selectProduct($pid);
-        $db = new productdb;
-        $imgbanner = $db->findCatagoryHeader($product->getCategory());
-
-				echo	"<img class='pageBanner' src='$imgbanner' alt='New products' >
-				<h4><span>".$product->getName()."</span></h4>"?>
-			</section>
-			<section class="main-content">
-				<div class="row">
-					<div class="span9">
-						<div class="row">
-							<div class="span4">
-								<?php
-								$pid = $_GET['pid'];
-								$product = new product;
-								$product->selectProduct($pid);
-								$img1 = $product->getImage();
-								$img1 = $img1[0];
-								$img1 = $img1['ProductImage'];
-								echo "<a href=$img1 class='thumbnail' data-fancybox-group='group1' ><img alt='' src='$img1'></a>";
-								echo "<ul class='thumbnails small'>";
-								$imgall = $product->getImage();
-								unset($imgall[0]);
-								if (!empty($imgall)){
-                  foreach ($imgall as $img) {
-  									$img = $img['ProductImage'];
-  									echo "<li class='span1'> <a href='$img' class='thumbnail' data-fancybox-group='group1' > <img src='$img' ></a></li>";
-  								}
-                }
-								 ?>
-
-								</ul>
-							</div>
-							<div class="span5">
-							<?php
-              if ($_SESSION['uid'] == "admin") {
-                echo "<form action='addProduct.php'>
-                <button class='btn btn-inverse' type='submit'>Edit this product</button>
-                </form>";
-              } else {
-                echo "<form class='form-inline' action='cart-process.php?pid=".$pid."' method='post'>
-                  <label><strong><font size='4'>Quantity:&nbsp&nbsp</strong></font></label>
-                  <input type='text' class='span1' name='quantity' placeholder='1'>
-                  &nbsp&nbsp
-                  <input class='btn btn-inverse' type='submit' class='btn btn-inverse' value='Add to cart'/>
-                </form>";
-              }
-
-               ?>
-								<address>
-									<?php
-									$pid = $_GET['pid'];
-									$product = new product;
-									$product->selectProduct($pid);
-									 echo "<strong><font size='4'>Availability: </strong><br>".$product->getStock()."<br><br><strong>Price: </strong><br>".$product->getPrice()." BAHT
-									 <br><br><strong>Description: </strong></font><br><br><font size='3'>".$product->getDecs()."</font>";
-									?>
-								</address>
-							</div>
-						</div>
-					</div>
+			<section  class="homepage-slider" id="home-slider">
+				<div class="flexslider">
+					<ul class="slides">
+						<li>
+							<img src="themes/images/carousel/totoro.jpg" alt="" />
+						</li>
+						<li>
+							<img src="themes/images/carousel/girl.jpg" alt="" />
+						</li>
+					</ul>
 				</div>
 			</section>
-
-      <section class="main-content">
+			<section class="header_text">
+			○	GOODTIME TOGETHER ○
+			</section>
+			<section class="main-content">
 				<div class="row">
 					<div class="span12">
 						<div class="row">
 							<div class="span12">
 								<h4 class="title">
-									<span class="pull-left"><span class="text"><span class="line"><strong>Suggest Products</strong></span></span></span>
+									<span class="pull-left"><span class="text"><span class="line"><strong>Products</strong></span></span></span>
 									<span class="pull-right">
-
+										<a class="left button" href="#myCarousel" data-slide="prev"></a><a class="right button" href="#myCarousel" data-slide="next"></a>
 									</span>
 								</h4>
 								<div id="myCarousel" class="myCarousel carousel slide">
@@ -174,13 +121,8 @@ require_once('productdb.php');
 											<ul class="thumbnails">
 
 												<?php
-                            $pid = $_GET['pid'];
-                            $product = new product;
-                            $product->selectProduct($pid);
-                            $cat = $product->getCategory();
-
 														$productList = new productdb;
-														$arr = $productList->getProductbyCategory($cat);
+														$arr = $productList->getAllProduct();
 														$arr2 = $productList->custom_shuffle($arr);
 														$arr3 = $productList->slice_ar($arr2,0,4);
 
@@ -194,16 +136,66 @@ require_once('productdb.php');
 															$pimage = $pimage[0];
 															$pimage = $pimage["ProductImage"];
 
+															switch ($category) {
+																case 1:
+																	$link = "miniatureList.php";
+																	break;
+																	case 2:
+																		$link = "nendoroidList.php";
+																		break;
+																		case 3:
+																			$link = "funkoList.php";
+																			break;
+																			default: $link = "product_detail.php";
+															}
+
 															echo "<li class='span3'>
 																<div class='product-box'>
 																	<span class='sale_tag'></span>
 																	<p><a href='product_detail.php?pid=$pid'><img src='$pimage'></a></p>
 																	<a href='product_detail.php' class='title'>".$pname."</a><br/>
-																	<a href='product_list.php?pl=$category' class='category'>".$pcategory."</a>
+																	<a href=$link class='category'>".$pcategory." </a>
 																	<p class='price'>".$pprice." BAHT</p>
 																</div>
 															</li>";
 														}
+													echo "	</ul></div><div class='item'><ul class='thumbnails'>";
+
+													$arr3 = $productList->slice_ar($arr2,4,8);
+
+													foreach ($arr3 as $a) {
+														$pid = $a["ProductID"];
+														$pname = $a["ProductName"];
+														$pprice = $a["ProductPrice"];
+														$category = $a["ProductCategoryID"];
+														$pcategory = $productList->findCategoryName($category);
+														$pimage = $productList->getProductImage($pid);
+														$pimage = $pimage[0];
+														$pimage = $pimage["ProductImage"];
+
+														switch ($category) {
+															case 1:
+																$link = "miniatureList.php";
+																break;
+																case 2:
+																	$link = "nendoroidList.php";
+																	break;
+																	case 3:
+																		$link = "funkoList.php";
+																		break;
+																		default: $link = "product_detail.php";
+														}
+
+														echo "<li class='span3'>
+															<div class='product-box'>
+																<span class='sale_tag'></span>
+																<p><a href='product_detail.php?pid=$pid'><img src='$pimage'></a></p>
+																<a href='product_detail.php' class='title'>".$pname."</a><br/>
+																<a href=$link class='category'>".$pcategory."</a>
+																<p class='price'>".$pprice." BAHT</p>
+															</div>
+														</li>";
+													}
 												 ?>
 
 											</ul>
@@ -218,26 +210,21 @@ require_once('productdb.php');
 				</div>
 			</section>
 
-
 		</div>
 		<script src="themes/js/common.js"></script>
-		<script>
-			$(function () {
-				$('#myTab a:first').tab('show');
-				$('#myTab a').click(function (e) {
-					e.preventDefault();
-					$(this).tab('show');
-				})
-			})
-			$(document).ready(function() {
-				$('.thumbnail').fancybox({
-					openEffect  : 'none',
-					closeEffect : 'none'
+		<script src="themes/js/jquery.flexslider-min.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$(document).ready(function() {
+					$('.flexslider').flexslider({
+						animation: "fade",
+						slideshowSpeed: 4000,
+						animationSpeed: 600,
+						controlNav: false,
+						directionNav: true,
+						controlsContainer: ".flex-container" // the container that holds the flexslider
+					});
 				});
-
-				$('#myCarousel-2').carousel({
-                    interval: 2500
-                });
 			});
 		</script>
     </body>

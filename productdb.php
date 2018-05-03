@@ -62,9 +62,8 @@ class productdb {
     return $arr;
   }
 
-  public function getProductbyCategory($categoryWord) {
+  public function getProductbyCategory($categoryID) {
     require "db.php";
-    $categoryID = $this->findCategoryID($categoryWord);
     $sql = "SELECT * FROM product WHERE ProductCategoryID = '$categoryID'";
     $result = mysqli_query($con,$sql);
     $arr = array();
@@ -76,7 +75,7 @@ class productdb {
 
   public function getAllCategory() {
     require "db.php";
-    $sql = "SELECT CategoryName FROM productcategories";
+    $sql = "SELECT * FROM productcategories";
     $result = mysqli_query($con,$sql);
     $arr = array();
     while ($data = mysqli_fetch_array($result)) {
@@ -97,6 +96,14 @@ class productdb {
   public function findCategoryName($categoryid) {
     require "db.php";
     $sql = "SELECT CategoryName FROM productcategories WHERE CategoryID = '$categoryid'";
+    $run_query = mysqli_query($con,$sql);
+    $ID = mysqli_fetch_array($run_query);
+    return $ID[0];
+  }
+
+  public function findCatagoryHeader($categoryid) {
+    require "db.php";
+    $sql = "SELECT CatagoryHeader FROM productcategories WHERE CategoryID = '$categoryid'";
     $run_query = mysqli_query($con,$sql);
     $ID = mysqli_fetch_array($run_query);
     return $ID[0];
