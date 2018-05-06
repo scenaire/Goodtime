@@ -1,9 +1,9 @@
 <?php
 class user {
 
-  private $fname,$lname,$address,$email,$username,$password;
+  private $fname,$lname,$address,$email,$username,$password,$letter;
 
-  public function register($username,$password,$fname,$lname,$address,$email) {
+  public function register($username,$password,$fname,$lname,$address,$email,$letter) {
     $userdb = new userdb;
     $this->fname = $fname;
     $this->lname = $lname;
@@ -11,6 +11,7 @@ class user {
     $this->email = $email;
     $this->username = $username;
     $this->password = $password;
+    $this->letter = $letter;
     return $userdb->register($this);
   }
 
@@ -41,6 +42,7 @@ class user {
     $this->email = $temp['CustEmail'];
     $this->username = $user;
     $this->password = $temp['password'];
+    $this->letter = $temp['letter'];
   }
 
   public function getEmail() {
@@ -65,6 +67,10 @@ class user {
 
   public function getLname() {
     return $this->lname;
+  }
+
+  public function getLetter() {
+    return $this->letter;
   }
 
 

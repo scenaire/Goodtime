@@ -1,7 +1,7 @@
 ﻿/*!
  * Flat & Scroll - Multipurpose One Page Theme
  *
- * Copyright 2013 
+ * Copyright 2013
  * Licensed under the Apache License v2.0
  * http://www.apache.org/licenses/LICENSE-2.0
  * Created by: Carlos Alvarez
@@ -169,9 +169,9 @@ a:hover {
 }
 */
 
-	
 
-/* General Styling */ 
+
+/* General Styling */
 
 #wrapper {
 	overflow: hidden;
@@ -328,7 +328,7 @@ a:hover {
 }
 
 
-/* Section 1 */ 
+/* Section 1 */
 
 #section1 {
 	background:#7f8c8d;
@@ -366,7 +366,7 @@ a:hover {
 
 }
 
-/* Section 2 */ 
+/* Section 2 */
 
 #section2{
 }
@@ -388,7 +388,7 @@ a:hover {
     text-align: center;
 }
 
-/* Section 3 */ 
+/* Section 3 */
 
 #section3 {
 	background-image:url(../img/project-bg.jpg);
@@ -534,7 +534,7 @@ a:hover {
 
 
 @media screen and (min-width: 1800px) {
-	
+
 	#section1 {
 		padding: 300px 0 !important;
 	}
@@ -542,19 +542,19 @@ a:hover {
 
 
 @media screen and (max-width: 1320px) {
-	
+
 	#section1 {
 		background-size: 1320px auto;
 	}
 }
 
 @media screen and (min-width: 1200px) {
-	
-	
+
+
 	#section1 {
 		padding: 170px 0;
 	}
-	
+
 	#section1 .intro h1 {
 	    font-size: 90px; font-size: 9.0rem;
 	    line-height: 100px;
@@ -566,11 +566,11 @@ a:hover {
 	    line-height: 34px;
 	    width: 90%;
 	}
-	
+
 	.section h2 {
 	    font-size: 67px; font-size: 6.7rem;
 	}
-			
+
 	.container-fluid {
 	    width: 1024px;
 	}
@@ -583,52 +583,52 @@ a:hover {
 		margin-left: -50px;
 		padding: 135px 0;
 	}
-	
+
 	#section1 {
 		background-size: 1200px auto;
 	}
-	
+
 	#section1 .intro {
 		margin: 100px 0;
-	}		
-	
+	}
+
 	#section1 .intro h3 {
 		font-size: 24px; font-size: 2.4rem;
 		line-height: 24px;
 	}
-	
+
 	.section .content {
 	    margin-top: 50px;
 	}
-	
+
 	.container-fluid {
 	    padding-left: 105px;
 	    padding-right: 105px;
     }
-	
+
 
 }
 
 @media screen and (max-width: 979px) {
-	
+
 	.section h2 {
 	    font-size: 48px; font-size: 4.8rem;
 	    line-height: 58px;
 	}
-	
+
 	.section .title hr {
 	    margin-top: 40px;
 	}
-	
+
 	.section .desc .span8 {
     	width: 100%;
 	}
-	
+
 	#section1 .intro h1 {
 		font-size: 70px; font-size: 7.0rem;
 		line-height: 70px;
-	}	
-	
+	}
+
 	#section1 .intro h3 {
 		font-size: 22px; font-size: 2.2rem;
 		line-height: 22px;
@@ -637,12 +637,12 @@ a:hover {
 	#section5 .content .span4 {
 		padding-right: 0px;
 	}
-	
+
 	.container-fluid {
 	    padding-left: 75px;
 	    padding-right: 75px;
-	}	
-		
+	}
+
 }
 
 @media screen and (min-width: 768px) and (max-width: 979px) {
@@ -650,11 +650,11 @@ a:hover {
 	#section1 .intro h3 {
 		width: 85%;
 	}
-	
+
 	#section2 .content .expand {
 		width: 48.6188%;
 	}
-	
+
 	#section4 .content .expand {
 		width: 100%;
 	}
@@ -663,61 +663,61 @@ a:hover {
 
 
 @media (max-width: 767px) {
-	
+
 	body {
 		padding: 0px;
 	}
-		
+
 	.section {
 		padding: 100px 0;
 	}
-	
+
 	.section .content {
 	    margin-top: 0;
 	}
-	
+
 	.section .content .pull-right {
     	float:left;
     }
-	
+
 	.section h4 {
 		margin-top: 30px;
 	}
-	
+
 	.section .title hr {
 		margin-left: 0px;
 	}
-		
+
 	#section1 {
 		background-size: 920px auto;
 	}
-	
+
 	#section1 .intro {
 		margin: 120px 0;
 	}
-	
+
 	#section1 .intro h3 {
 		width: 55%;
 	}
-	
+
 	#section3 .content img {
     	margin-top: 30px;
     	padding: 1.5%;
     }
-        
+
     #section3 .table th, #section3 .table td {
     	font-size: 13px; font-size: 1.3rem;
 	}
-	
+
 	#section3 .table {
 		margin-top: 30px;
 	}
-		
+
     #section5 .span8 {
 	    margin-top: 30px;
     }
-    
-	
+
+
 }
 
 @media screen and (min-width: 481px) and (max-width: 649px) {
@@ -726,7 +726,7 @@ a:hover {
 		font-size: 60px; font-size: 6rem;
 		line-height: 60px;
 	}
-	
+
 	#section1 .intro h3 {
 		font-size: 20px; font-size: 2rem;
 	}
@@ -734,25 +734,25 @@ a:hover {
 }
 
 @media screen and (min-width: 481px) {
-	
+
 	#section1 {
 		background-image:url(../img/intro-bg.jpg);
 	}
-	
+
 }
 
 
 @media screen and (max-width: 480px) {
-	 
+
 	.section{
 		padding: 80px 0;
 	}
-	
+
 	#section1 {
 	    background-size: 1024px auto;
 	    padding: 60px 0;
 	}
-	
+
 	#section1 .intro {
 		margin: 50px 0;
 	}
@@ -761,13 +761,13 @@ a:hover {
 		font-size: 50px; font-size: 5rem;
 		line-height: 50px;
 	}
-	
+
 	#section1 .intro h3 {
 		font-size: 22px; font-size: 2.2rem;
 		line-height: 24px;
 		width: 100%;
 	}
-	
+
 	#section1 .thumb {
 		background: #95a5a6;
 	    display: block;
@@ -775,18 +775,14 @@ a:hover {
 	    max-width: 80%;
 	    padding: 3%;
 	}
-	
+
 	#section3 .table th, #section3 .table td {
     	font-size: 11px; font-size: 1.1rem;
 	}
-	
+
 	#section4 h4 {
 	    height: auto;
-	}    
+	}
 
 
 }
-
-
-
-

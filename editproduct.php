@@ -7,7 +7,7 @@ require_once('productdb.php');
 unset($_SESSION['messageE']);
 unset($_SESSION['messageS']);
 
-if (isset($_POST["addP"])) {
+if (isset($_POST["update"])) {
 		$pName = ($_POST["pName"]);
 		$pPrice = ($_POST["pPrice"]);
 		$pCategory = ($_POST["pGroup"]);
@@ -15,32 +15,36 @@ if (isset($_POST["addP"])) {
 		$pDecs = ($_POST["pDecs"]);
 
 		$img = array();
-		if(!empty($_POST["pic1"])) {
-			array_push($img,"Product_image/".$_POST["pic1"]);
-		}
-		if(!empty($_POST["pic2"])) {
-			array_push($img,"Product_image/".$_POST["pic2"]);
-		}
-		if(!empty($_POST["pic3"])) {
-			array_push($img,"Product_image/".$_POST["pic3"]);
-		}
-		if(!empty($_POST["pic4"])) {
-			array_push($img,"Product_image/".$_POST["pic4"]);
-		}
-		if(!empty($_POST["pic5"])) {
-			array_push($img,"Product_image/".$_POST["pic5"]);
-		}
 
-		if(empty($pName) || empty($pPrice) || empty($pCategory) || empty($pStock) || empty($img)) {
-	    $_SESSION['messageE'] = "Please input all box";
+    for ($x = 0; $x < 5; $x++) {
+      $i = "pic".($x+1);
+      if(!empty($_POST[$i])) {
+        array_push($img,"Product_image/".$_POST[$i]);
+      } else {
+        array_push($img,null);
+      }
+    }
+
+		if(empty($pName) || empty($pPrice) || empty($pCategory) || empty($pStock)) {
+	    $_SESSION['messageE'] = "Please enter all box";
 	  } elseif ($pStock < 0) {
 			$_SESSION['messageE'] = "Stock cannot less than 0";
 		} elseif ($pPrice< 0){
 			$_SESSION['messageE'] = "Price cannot less than 0";
 		} else {
 			$product = new product;
-			$_SESSION['messageS'] = $product->addItem($pName,$pPrice,$img,$pCategory,$pStock,$pDecs);
-		}
+      $pid = $_GET['pid'];
+      $product->selectProduct($pid);
+			$_SESSION['messageS'] = $product->updateProduct($pName,$pPrice,$img,$pCategory,$pStock,$pDecs);
+      header("location:product_detail.php?pid=$pid");
+    }
+} elseif (isset($_POST["remove"])) {
+  $pid = $_GET['pid'];
+  $product = new product;
+  $product->selectProduct($pid);
+  $cat = $product->getCategory();
+  $product->removeProduct();
+  header("location:product_list.php?pl=$cat");
 }
 
 
@@ -133,7 +137,12 @@ if (isset($_POST["addP"])) {
 
                 <div class="span7">
                   <h4 class="title"><span class="text"><strong>Product</strong> Form</span></h4>
-                  <form action="addProduct.php" method="post" class="form-stacked">
+                  <?php
+
+                  echo "<form action='editproduct.php?pid=".$_GET['pid']."' method='post' class='form-stacked'>";
+
+                   ?>
+
                     <fieldset>
 											<?php
 
@@ -151,14 +160,34 @@ if (isset($_POST["addP"])) {
                       <div class="control-group">
                         <label class="control-label">Name:</label>
                         <div class="controls">
-                          <input type="text" name="pName">
+
+                          <?php
+
+                          $pid = $_GET['pid'];
+          								$product = new product;
+          								$product->selectProduct($pid);
+                          $name = $product->getName();
+                          //$name = str_replace("+","&nbsp;",urlencode($name));
+                          //$name = str_replace("%2F","/",$name);
+                          echo "<input type='text' name='pName' value='$name'>";
+
+                           ?>
+
                         </div>
                       </div>
 
                       <div class="control-group">
                         <label class="control-label">Price:</label>
                         <div class="controls">
-                          <input type="text" name="pPrice">
+                          <?php
+
+                          $pid = $_GET['pid'];
+                          $product = new product;
+                          $product->selectProduct($pid);
+                          $price = $product->getPrice();
+                          echo "<input type='text' name='pPrice' value=$price>";
+
+                           ?>
                         </div>
                       </div>
 
@@ -167,12 +196,23 @@ if (isset($_POST["addP"])) {
                           <div class="controls">
 														<select name="pGroup">
 															<?php
+
+                              $pid = $_GET['pid'];
+                              $product = new product;
+                              $product->selectProduct($pid);
+                              $cat = $product->getCategoryWord();
+
 															$db = new productdb;
 															$list = $db->getAllCategory();
 
 															foreach ($list as $key) {
 																$val = $key['CategoryName'];
-																echo "<option value='$val'>$val</option>";
+                                if ($cat == $val) {
+                                  echo "<option selected value='$val'>$val</option>";
+                                } else {
+                                  echo "<option value='$val'>$val</option>";
+                                }
+
 															}
 
 															 ?>
@@ -184,7 +224,15 @@ if (isset($_POST["addP"])) {
                       <div class="control-group">
                         <label class="control-label">Stock:</label>
                         <div class="controls">
-                          <input type="text" name="pStock">
+                          <?php
+
+                          $pid = $_GET['pid'];
+                          $product = new product;
+                          $product->selectProduct($pid);
+                          $stock = $product->getStock();
+                          echo "<input type='text' name='pStock' value=$stock>";
+
+                           ?>
                         </div>
                       </div>
 
@@ -192,48 +240,65 @@ if (isset($_POST["addP"])) {
                         <label class="control-label">Description:</label>
 
 												<div class="controls" align="left">
-           									<textarea name="pDecs" class="ckeditor" cols="69" rows="5"></textarea>
+
+                          <?php
+
+                          $pid = $_GET['pid'];
+                          $product = new product;
+                          $product->selectProduct($pid);
+                          $decs = $product->getDecs();
+                          echo "<textarea name='pDecs' class='ckeditor' cols='69' rows='5'>$decs</textarea>";
+
+                           ?>
+
+
           						</div>
                       </div>
-                        <from action="/action_page.php">
-                          <input type="file" name="pic1" accept="image/*" value="Browse..">
-													<input type="file" name="pic2" accept="image/*" value="Browse..">
-													<input type="file" name="pic3" accept="image/*" value="Browse..">
-													<input type="file" name="pic4" accept="image/*" value="Browse..">
-													<input type="file" name="pic5" accept="image/*" value="Browse..">
-                        </from>
+
+
+
                       <hr>
-                        <div class="actions"><input tabindex="9" name="addP" class="btn btn-inverse large" type="submit" value="Save"></div>
+                        <div class="actions"><input tabindex="9" name="update" class="btn btn-inverse large" type="submit" value="Save"></div>
                   </fieldset>
                 </form>
               </div>
 						</div>
-							<div class="span5">
-							</div>
 						</div>
+					</div>
+          <div class="span3 col">
+            <?php
+
+            $pid = $_GET['pid'];
+            $product = new product;
+            $product->selectProduct($pid);
+            $image = $product->getImage();
+
+            echo "<div class='col-sm-6 col-sm-offset-3'>";
+
+            for ($x = 0; $x < 5; $x++) {
+              $i = $x+1;
+              if(isset($image[$x])) {
+                $img = $image[$x];
+                $img = $img['ProductImage'];
+                echo "
+                <from>
+                <div class='form-group'>";
+                echo "<img style='max-height:100px; width:auto;' src='$img'>";
+                echo "<input type='file' name='pic$i' accept='image/*'' value='Browse..'>
+                </div></from><hr>";
+              } else {
+                echo "<from>
+                <div class='form-group'>";
+                echo "<input type='file' name='pic$i' accept='image/*'' value='Browse..'></div></from>";
+              }
+            }
+
+             ?>
+
+        </div>
 					</div>
 				</div>
 			</section>
 		</div>
-		<script src="themes/js/common.js"></script>
-		<script>
-			$(function () {
-				$('#myTab a:first').tab('show');
-				$('#myTab a').click(function (e) {
-					e.preventDefault();
-					$(this).tab('show');
-				})
-			})
-			$(document).ready(function() {
-				$('.thumbnail').fancybox({
-					openEffect  : 'none',
-					closeEffect : 'none'
-				});
-
-				$('#myCarousel-2').carousel({
-                    interval: 2500
-                });
-			});
-		</script>
     </body>
 </html>

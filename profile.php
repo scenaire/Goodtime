@@ -50,10 +50,14 @@ require_once('user.php');
    							<li><a href='logout.php'>Logout</a></li>";
                 }
                 else {
-                  echo "<b>Hey! ".$_SESSION['uid']."</b>
-                <li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>
-                <li><a href='checkout.html'>Checkout</a></li>
-                <li><a href='logout.php'>Logout</a></li>";
+                  echo "<b>Hey! ".$_SESSION['uid']."</b>";
+                  if ($_SESSION['W_qty'] > 0){
+                    echo "<li><a href='wishlist-page.php'>Wishlist (".$_SESSION['W_qty'].")</a></li>";
+                  }
+                if ($_SESSION['C_qty'] > 0){
+                  echo "<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>";
+                }
+                echo "<li><a href='logout.php'>Logout</a></li>";
                 }
 
                ?>

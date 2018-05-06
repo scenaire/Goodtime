@@ -44,24 +44,24 @@ require_once('productdb.php');
 					<div class="account pull-right">
 						<ul class="user-menu">
               <?php
-              if (isset($_SESSION['uid'])){
-                if ($_SESSION['uid'] == "admin"){
+                if ($_SESSION['uid'] == "admin") {
                   echo "<b>Hey! ".$_SESSION['uid']."</b>
    							<li><a href='addProduct.php'>Add Product</a></li>
    							<li><a href='logout.php'>Logout</a></li>";
                 }
                 else {
-                  echo "<b>Hey! ".$_SESSION['uid']."</b>
-   							<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>
-   							<li><a href='checkout.html'>Checkout</a></li>
-   							<li><a href='logout.php'>Logout</a></li>";
+                  echo "<b>Hey! ".$_SESSION['uid']."</b>";
+                  if ($_SESSION['W_qty'] > 0){
+                    echo "<li><a href='wishlist-page.php'>Wishlist (".$_SESSION['W_qty'].")</a></li>";
+                  }
+                if ($_SESSION['C_qty'] > 0){
+                  echo "<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>";
                 }
-            } else {
-              echo "<li><a href='cart.html'>Your Cart</a></li>
-							<li><a href='checkout.html'>Checkout</a></li>
-							<li><a href='register.php'>Login</a></li>";
-            }
+                echo "<li><a href='logout.php'>Logout</a></li>";
+                }
+
                ?>
+
 						</ul>
 					</div>
 				</div>
@@ -128,17 +128,21 @@ require_once('productdb.php');
 							</div>
 							<div class="span5">
 							<?php
-              if ($_SESSION['uid'] == "admin") {
-                echo "<form action='addProduct.php'>
-                <button class='btn btn-inverse' type='submit'>Edit this product</button>
-                </form>";
-              } else {
-                echo "<form class='form-inline' action='cart-process.php?pid=".$pid."' method='post'>
-                  <label><strong><font size='4'>Quantity:&nbsp&nbsp</strong></font></label>
-                  <input type='text' class='span1' name='quantity' placeholder='1'>
-                  &nbsp&nbsp
-                  <input class='btn btn-inverse' type='submit' class='btn btn-inverse' value='Add to cart'/>
-                </form>";
+              if (isset($_SESSION['uid'])) {
+                if ($_SESSION['uid'] == "admin") {
+                  echo "<form action='editproduct.php?pid=$pid' method='POST'>
+                  <button class='btn btn-inverse' name='edit' type='submit'>Edit this product</button>
+                  <button class='btn btn-inverse' name='remove' type='submit'>Remove this product</button>
+                  </form>";
+                } else {
+                  echo "<form class='form-inline' action='cart-process.php?pid=".$pid."' method='POST'>
+                    <button class='btn' name='addwishlist' type='submit'>Add to your wishlist</button><br><br>
+                    <label><strong><font size='4'>Quantity:&nbsp&nbsp</strong></font></label>
+                    <input type='text' class='span1' name='quantity' placeholder='0'>
+                    &nbsp&nbsp
+                    <input class='btn btn-inverse' name='addcart' type='submit' class='btn btn-inverse' value='Add to cart'/>
+                  </form>";
+                }
               }
 
                ?>

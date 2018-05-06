@@ -102,7 +102,7 @@ require_once('cartdb.php');
 						<table class="table table-striped">
 							<thead>
 								<tr>
-                  <th> </th>
+                  <th>Remove</th>
 									<th>Image</th>
 									<th>Product Name</th>
 									<th>Quantity</th>
@@ -116,7 +116,7 @@ require_once('cartdb.php');
 
                     $cart = new cart($_SESSION['uid']);
                     $total = 0;
-                    $num = 0;
+                    $num = -1;
 
                     foreach ($cart->getCart() as $key) {
                       echo "<tr>";
@@ -134,10 +134,11 @@ require_once('cartdb.php');
                       $total += $ttl;
                       $num += 1;
 
-                      echo "<td><h4>$num</h4></td>
-                      <td><a href='product_detail.php?pid=$pid'><img style='max-height:250px; width:auto;' src='$pimg'></a></td>
+                      echo "<td><input name='check' type='checkbox' value='option1'></td>
+                      <td><a href='product_detail.php?pid=$pid'><img style='max-height:100px; width:auto;' src='$pimg'></a></td>
                       <td>$pname</td>
-                      <td><input type='text' placeholder=$qty class='input-mini'></td>
+                      <td><form method='post'><input type='text' name='quantity$num' placeholder=$qty class='input-mini'></form></td>
+
                       <td>$pprice THB</td>
                       <td>$ttl THB</td>
                       </tr>";
@@ -151,19 +152,27 @@ require_once('cartdb.php');
 
 							echo "</tbody>
 						</table>
+            <h5>Do you have an coupon?</h5>
+						<form method='POST' action='cart-process.php'>
+              <input type='text' name='coupon' placeholder='Use your coupon here'/> &nbsp;&nbsp;
+              <input class='btn btn-inverse' name='updatecoupon' type='submit' value='update'/>
+            </form>
 						<hr>
 						<p class='cart-total right'>
 							<strong>Sub-Total</strong>:	$total THB<br>
 							<strong>VAT (7%)</strong>: $vat THB<br>
 							<strong>Total</strong>: $totals THB<br>";
-              ?>
+
+
+              echo "
 						</p>
 						<hr/>
-						<p class="form-inline">
-							<form>
-								<input class="btn" type="button" value="Update"/>
-								<input class="btn" type="button" value="Continue" onclick="window.location.href='./profile.php'"/>
-								<input class="btn btn-inverse" type="button" value="Checkout"/>
+						<p class='form-inline' >
+							<form method='POST' action='cart-process.php'>
+								<input class='btn' type='submit' name='update' value='Update'/>
+								<input class='btn' type='button' value='Continue' onclick='history.go(-1);'/>
+								<input class='btn btn-inverse' name='checkout' type='submit' value='Checkout'/>
+                ";?>
 							</form>
 						</p>
 					</div>

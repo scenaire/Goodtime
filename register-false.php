@@ -2,9 +2,7 @@
 session_start();
 require_once('user.php');
 require_once('userdb.php');
-
-$_SESSION['message'] = '';
-$_SESSION['status'] = "Wrong password or username";
+require_once('productdb.php');
 
 ?>
 
@@ -47,9 +45,7 @@ $_SESSION['status'] = "Wrong password or username";
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">
-							<li><a href="cart.html">Your Cart</a></li>
-							<li><a href="checkout.html">Checkout</a></li>
-							<li><a href="register.php">Login</a></li>
+              <li><a href='register.php'>Login</a></li>
 						</ul>
 					</div>
 				</div>
@@ -63,10 +59,17 @@ $_SESSION['status'] = "Wrong password or username";
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
-							<li><a href="./miniatureList.php">MINIATURE HOUSE</a>	</li>
-							<li><a href="./nendoroidList.php">NENDOROID</a></li>
-							<li><a href="./funkoList.php">FUNKO</a></li>
-							<li><a href="./bestsellerList.html">Best Seller</a></li>
+              <?php
+							$productdb = new productdb;
+							$list = $productdb->getAllCategory();
+
+							foreach ($list as $val) {
+								$key = $val['CategoryID'];
+								$cat = $val['CategoryName'];
+								echo "<li><a href='./product_list.php?pl=$key'>$cat</a></li>";
+							}
+
+							 ?>
 						</ul>
 					</nav>
 				</div>
@@ -82,7 +85,13 @@ $_SESSION['status'] = "Wrong password or username";
 							<input type="hidden" name="next" value="/">
 							<fieldset>
 								<div class="control-group">
-                  <div class="alert alert-error"><?= $_SESSION['status']?></div>
+                  <?php
+
+                  if(!empty($_SESSION['messageL'])) {
+                    echo "<div class='alert alert-error'>". $_SESSION['messageL']."</div>";
+                  }
+
+                   ?>
 									<label class="control-label">Username</label>
 									<div class="controls">
 										<input type="text" name="user" placeholder="Enter your username" id="username" class="input-xlarge">
@@ -95,7 +104,7 @@ $_SESSION['status'] = "Wrong password or username";
 									</div>
 								</div>
 								<div class="control-group">
-									<input tabindex="3" class="btn btn-inverse large" type="submit" value="Login">
+									<input tabindex="3" class="btn btn-inverse large" name="login" type="submit" value="Login">
 									<hr>
 								</div>
 							</fieldset>
@@ -103,10 +112,26 @@ $_SESSION['status'] = "Wrong password or username";
 					</div>
 					<div class="span7">
 						<h4 class="title"><span class="text"><strong>Register</strong> Form</span></h4>
-						<form action="register.php" method="post" class="form-stacked">
+						<form action="login.php" method="post" class="form-stacked">
 							<fieldset>
 								<div class="control-group">
-                  <div class="alert alert-error"><?= $_SESSION['message']?></div>
+                  <?php
+
+                  if(!empty($_SESSION['messageR'])) {
+                    echo "<div class='alert alert-error'>". $_SESSION['messageR']."</div>";
+                  }
+
+									elseif(isset($_SESSION['messageRC'])) {
+										if ($_SESSION['messageRC']) {
+											echo "<div class='alert alert-success'> <strong>Congratulation!</strong> Your Registration is Successful! Please login! </div>";
+										} else {
+											echo "<div class='alert alert-error'> Username or Email is already register! </div>";
+										}
+
+									}
+
+
+                   ?>
 									<label class="control-label">Name:</label>
 									<div class="controls">
 										<input type="text" placeholder="Enter your name" name="name" class="input-xlarge">
@@ -155,8 +180,12 @@ $_SESSION['status'] = "Wrong password or username";
 									</div>
 								</div>
 
+								<div class="checkbox">
+  								<label><input type="checkbox" name="sendletter" value="1">send a Newsletter</label>
+								</div>
+
 								<hr>
-								<div class="actions"><input tabindex="9" class="btn btn-inverse large" type="submit" value="Create Account"></div>
+								<div class="actions"><input tabindex="9" name="register" class="btn btn-inverse large" type="submit" value="Create Account"></div>
 							</fieldset>
 						</form>
 					</div>
@@ -200,13 +229,5 @@ $_SESSION['status'] = "Wrong password or username";
 				<span>Copyright 2013 bootstrappage template  All right reserved.</span>
 			</section>
 		</div>
-		<script src="themes/js/common.js"></script>
-		<script>
-			$(document).ready(function() {
-				$('#checkout').click(function (e) {
-					document.location.href = "checkout.html";
-				})
-			});
-		</script>
     </body>
 </html>

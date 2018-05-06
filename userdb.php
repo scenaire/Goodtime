@@ -11,15 +11,16 @@ class userdb {
     $email = $user->getEmail();
     $username = $user->getUsername();
     $password = $user->getPassword();
+    $letter = $user->getLetter();
 
-    $sql = "INSERT INTO users (CustFname,CustLName,CustAddress,CustEmail,username,password)
-    VALUES('$UFname','$ULname','$address','$email','$username','$password')";
+    $sql = "INSERT INTO users (CustFname,CustLName,CustAddress,CustEmail,username,password,sendpromotion)
+    VALUES('$UFname','$ULname','$address','$email','$username','$password','$letter')";
 
     if ($con->query($sql)===true) {
-      return "Congratulation! Your Registration is Successful!";
+      return true;
     }
     else {
-      return "Username or E-mail is already register";
+      return false;
     }
 
     $con->close();

@@ -21,14 +21,73 @@ class productdb {
           $name = mysqli_real_escape_string($con,$name);
           $user = $this->findIDbyName($name);
           $addpic = $this->addPicture($image,$user);
-          return "Successful";
+          return true;
         }
         else {
-          return "Error: ". $sql . "<br>" .$con->error;
+          return false;
         }
 
         $con->close();
     }
+
+  }
+
+  public function updateItem(product $product) {
+    require "db.php";
+    $categoryID = $this->findCategoryID($product->getCategoryword());
+    if ($categoryID === null) {
+      return "Error";
+    } else {
+      $id = $product->getID();
+      $name = mysqli_real_escape_string($con,$product->getName());
+      $price = $product->getPrice();
+      $stock = $product->getStock();
+      $decs = mysqli_real_escape_string($con,$product->getDecs());
+      $image = $product->getImage();
+
+      $temp = array();
+      foreach ($this->getProductImage($id) as $key) {
+        array_push($temp,$key['ProductImage']);
+      }
+
+      for ($x=0;$x<5;$x++){
+        if ($image[$x] == null) {
+          $image[$x] = $temp[$x];
+        }
+      }
+
+      $sql = "UPDATE product SET ProductName='$name', ProductPrice='$price', ProductStock='$stock', ProductDecs='$decs', ProductCategoryID='$categoryID'
+      WHERE ProductID='$id'";
+
+        if ($con->query($sql)===true) {
+          $name = mysqli_real_escape_string($con,$name);
+          $user = $this->findIDbyName($name);
+          $this->removePic($user);
+          $addpic = $this->addPicture($image,$user);
+          return true;
+        }
+        else {
+          return false;
+        }
+
+        $con->close();
+    }
+  }
+
+  public function removePic($ProductID) {
+    require "db.php";
+
+    $sql = "DELETE FROM ProductImage WHERE ProductID='$ProductID'";
+    $run_query = mysqli_query($con,$sql);
+  }
+
+  public function removeItem($productID) {
+    require "db.php";
+
+    $this->removePic($productID);
+
+    $sql = "DELETE FROM Product WHERE ProductID='$productID'";
+    $run_query = mysqli_query($con,$sql);
 
   }
 

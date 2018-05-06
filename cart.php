@@ -38,6 +38,14 @@ Class cart {
     unset($temp);*/
   }
 
+  public function removeAllItem() {
+    $cartdb = new cartdb;
+    foreach ($this->cart as $key) {
+      $pid = $key['ProductID'];
+      echo $cartdb->removeItem($this->customer,$pid);
+    }
+  }
+
   public function getCustomerID() {
     return $this->customer;
   }

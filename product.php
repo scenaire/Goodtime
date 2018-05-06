@@ -17,6 +17,18 @@
       return $productdb->addItem($this);
     }
 
+    public function updateProduct($name,$price,$image,$categoryword,$stock,$decs) {
+      require_once('productdb.php');
+      $this->name = $name;
+      $this->price = $price;
+      $this->categoryword = $categoryword;
+      $this->image = $image;
+      $this->stock = $stock;
+      $this->decs = $decs;
+      $productdb = new productdb;
+      return $productdb->updateItem($this);
+    }
+
     public function selectProduct($productID) {
       require_once('productdb.php');
       $productdb = new productdb;
@@ -29,6 +41,12 @@
       $this->decs = $temp['ProductDecs'];
       $this->categoryword = $productdb->findCategoryName($this->category);
       $this->image = $productdb->getProductImage($productID);
+    }
+
+    public function removeProduct() {
+      require_once('productdb.php');
+      $productdb = new productdb;
+      $productdb->removeItem($this->ID);
     }
 
     public function getPrice() {

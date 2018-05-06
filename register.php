@@ -3,30 +3,6 @@ session_start();
 require_once('user.php');
 require_once('userdb.php');
 require_once('productdb.php');
-$_SESSION['status'] = '';
-$_SESSION['message'] = '';
-
-if (isset($_POST["name"])) {
-  $f_name = $_POST["name"];
-	$l_name = $_POST["lastname"];
-	$email = $_POST['email'];
-  $username = $_POST['username'];
-	$password = $_POST['password'];
-  $repassword = $_POST['repassword'];
-	$address = $_POST['address'];
-	$name = "/^[a-zA-Z ]+$/";
-
-  if(empty($f_name) || empty($l_name) || empty($email) || empty($password) || empty($username) || empty($address)) {
-    $_SESSION['message'] = "Please input all box";
-  } elseif ($password != $repassword){
-    $_SESSION['message'] = "Password doesn't match";
-  } else {
-    $user = new user;
-    $_SESSION['message'] = $user->register($username,$password,$f_name,$l_name,$address,$email);
-  }
-
-}
-
 
 ?>
 
@@ -69,25 +45,7 @@ if (isset($_POST["name"])) {
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">
-              <?php
-              if (isset($_SESSION['uid'])){
-                if ($_SESSION['uid'] == "admin"){
-                  echo "<b>Hey! ".$_SESSION['uid']."</b>
-                <li><a href='addProduct.php'>Add Product</a></li>
-                <li><a href='logout.php'>Logout</a></li>";
-                }
-                else {
-                  echo "<b>Hey! ".$_SESSION['uid']."</b>
-                <li><a href='cart-site.php'>Your Cart</a></li>
-                <li><a href='checkout.html'>Checkout</a></li>
-                <li><a href='logout.php'>Logout</a></li>";
-                }
-            } else {
-              echo "<li><a href='cart.html'>Your Cart</a></li>
-              <li><a href='checkout.html'>Checkout</a></li>
-              <li><a href='register.php'>Login</a></li>";
-            }
-               ?>
+              <li><a href='register.php'>Login</a></li>
 						</ul>
 					</div>
 				</div>
@@ -127,7 +85,6 @@ if (isset($_POST["name"])) {
 							<input type="hidden" name="next" value="/">
 							<fieldset>
 								<div class="control-group">
-                  <div class="alert alert-error"><?= $_SESSION['status']?></div>
 									<label class="control-label">Username</label>
 									<div class="controls">
 										<input type="text" name="user" placeholder="Enter your username" id="username" class="input-xlarge">
@@ -140,7 +97,7 @@ if (isset($_POST["name"])) {
 									</div>
 								</div>
 								<div class="control-group">
-									<input tabindex="3" class="btn btn-inverse large" type="submit" value="Login">
+									<input tabindex="3" class="btn btn-inverse large" name="login" type="submit" value="Login">
 									<hr>
 								</div>
 							</fieldset>
@@ -148,10 +105,9 @@ if (isset($_POST["name"])) {
 					</div>
 					<div class="span7">
 						<h4 class="title"><span class="text"><strong>Register</strong> Form</span></h4>
-						<form action="register.php" method="post" class="form-stacked">
+						<form action="login.php" method="post" class="form-stacked">
 							<fieldset>
 								<div class="control-group">
-                  <div class="alert alert-error"><?= $_SESSION['message']?></div>
 									<label class="control-label">Name:</label>
 									<div class="controls">
 										<input type="text" placeholder="Enter your name" name="name" class="input-xlarge">
@@ -200,8 +156,12 @@ if (isset($_POST["name"])) {
 									</div>
 								</div>
 
+								<div class="checkbox">
+  								<label><input type="checkbox" name="sendletter" value="1">send a Newsletter</label>
+								</div>
+
 								<hr>
-								<div class="actions"><input tabindex="9" class="btn btn-inverse large" type="submit" value="Create Account"></div>
+								<div class="actions"><input tabindex="9" name="register" class="btn btn-inverse large" type="submit" value="Create Account"></div>
 							</fieldset>
 						</form>
 					</div>
@@ -245,13 +205,5 @@ if (isset($_POST["name"])) {
 				<span>Copyright 2013 bootstrappage template  All right reserved.</span>
 			</section>
 		</div>
-		<script src="themes/js/common.js"></script>
-		<script>
-			$(document).ready(function() {
-				$('#checkout').click(function (e) {
-					document.location.href = "checkout.html";
-				})
-			});
-		</script>
     </body>
 </html>

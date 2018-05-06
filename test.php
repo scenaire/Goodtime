@@ -3,12 +3,24 @@
 require "cart.php";
 require "cartdb.php";
 require "order.php";
+require "orderdb.php";
 require "user.php";
+require "userdb.php";
 require "product.php";
 require "productdb.php";
+require "wishlist.php";
+require "wishlistdb.php";
 
 //$user = new user("Tempesta","kwankang","จิรัชญา","ยี่โต๊ะ","36/20 ถนนมลิวรรณ ตำบล กุดป่อง อำเภอ เมือง จังหวัด เลย 42000","tempesta-psyzeoul@Hotmail.com");
-//$user = new user;
+/*$user = new user;
+$aa = $user->register("Tempesta","kwankang","จิรัชญา","ยี่โต๊ะ","36/20 ถนนมลิวรรณ ตำบล กุดป่อง อำเภอ เมือง จังหวัด เลย 42000","tempesta-psyzeoul@Hotmail.com");
+
+if ($aa == false) {
+  echo "false";
+}
+if ($aa == true) {
+  echo "true";
+}*/
 //$user->login("tempesta","kwankang");
 //echo $user->getUsername();
 //echo "<br><br>";
@@ -24,6 +36,27 @@ require "productdb.php";
 //  print_r($img);
 //  echo "<br><br>";
 //}
+
+//$p = new productdb;
+//echo $p->removeItem(23);
+
+
+//$to = "tempesta-psyzeoul@hotmail.com";
+//$subject = "Test 1";
+//$txt = "Hello world!";
+//$headers = "From: webmaster@example.com";
+
+//mail($to,$subject,$txt,$headers);
+
+$wishlist = new wishlist("scenaire");
+print_r($wishlist->getWishlist());
+echo "<br><br>";
+echo $wishlist->getWishlistCount();
+echo "<br><br>";
+
+$wishlistdb = new wishlistdb;
+print_r($wishlistdb->getItemList("scenaire"));
+
 
 /*$productList = new productdb;
 $arr = $productList->getAllProduct();
@@ -44,15 +77,15 @@ foreach ($arr3 as $a) {
 
 }*/
 
-$cart = new cart("scenaire");
-print_r($cart->getCart());
-echo "<br><br>";
+//$cart = new cart("scenaire");
+//print_r($cart->getCart());
+//echo "<br><br>";
 
-echo $key = array_search(50,array_column($cart->getCart(),'ProductID'));
+//echo $key = array_search(50,array_column($cart->getCart(),'ProductID'));
 
-if ($key === false) {
-  echo "<br><br>false";
-}
+//if ($key === false) {
+//  echo "<br><br>false";
+//}
 
 
 //$cart = new cartdb;

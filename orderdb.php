@@ -17,11 +17,13 @@ class orderdb {
     $result = $result[0]+1;
     $trxid = "$result".''."$customer";
 
-    for ($x=0;$x<count($allItem);$x++) {
-      $product = $allItem[$x]['id'];
-      $quan = $allItem[$x]['quantity'];
-      $sql = "INSERT INTO orders (username,ProductID,Quantity,Status,trxID)
-      VALUES('$customer','$product','$quan','$status','$trxid')";
+    foreach ($allItem as $key) {
+
+      $product = $key['ProductID'];
+      $quan = $key['Quantity'];
+      $sql = "INSERT INTO orders (username,ProductID,Quantity,Status,trxID,OrderDate)
+      VALUES('$customer','$product','$quan','$status','$trxid',NOW())";
+
       if ($con->query($sql)===true) {
         echo "successfully";
       }
@@ -29,9 +31,7 @@ class orderdb {
         echo "Error: ". $sql . "<br>" .$con->error;
       }
 
-      echo "<br><br>";
     }
-
   }
 
   public function getOrderbyTrxID($trxid) {

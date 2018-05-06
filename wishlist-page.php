@@ -2,6 +2,8 @@
 session_start();
 require_once('product.php');
 require_once('productdb.php');
+require_once('wishlist.php');
+require_once('wishlistdb.php');
  ?>
 
 <!DOCTYPE html>
@@ -28,9 +30,8 @@ require_once('productdb.php');
 		<script src="themes/js/jquery.scrolltotop.js"></script>
 		<!--[if lt IE 9]>
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-			<script src="js/respond.min.js"></script>
+			<script src="themes/js/respond.min.js"></script>
 		<![endif]-->
-
 	</head>
     <body>
 		<div id="top-bar" class="container">
@@ -75,82 +76,88 @@ require_once('productdb.php');
 				</div>
 					<nav id="menu" class="pull-right">
 						<ul>
-              <?php
-              $productdb = new productdb;
-              $list = $productdb->getAllCategory();
+							<?php
+							$productdb = new productdb;
+							$list = $productdb->getAllCategory();
 
-              foreach ($list as $val) {
-                $key = $val['CategoryID'];
-                $cat = $val['CategoryName'];
-                echo "<li><a href='./product_list.php?pl=$key'>$cat</a></li>";
-              }
+							foreach ($list as $val) {
+								$key = $val['CategoryID'];
+								$cat = $val['CategoryName'];
+								echo "<li><a href='./product_list.php?pl=$key'>$cat</a></li>";
+							}
 
-               ?>
+							 ?>
 						</ul>
 					</nav>
 				</div>
 			</section>
 			<section class="header_text sub">
-          <?php
-            $id = $_GET['pl'];
-            $p = new productdb;
-
-            echo "	<img class='pageBanner' src='".$p->findCatagoryHeader($id)."' alt='New products'>
-        				<h4><span>".$p->findCategoryName($id);
-          ?>
-      </span></h4>
+			<img class="pageBanner" src="Product_image/nekopara.jpg" alt="New products" >
+				<h4><span>WISHLIST</span></h4>
 			</section>
 			<section class="main-content">
-
 				<div class="row">
-					<div class="span9">
-						<ul class="thumbnails listing-products">
-							<?php
+					<div class="span10">
+						<h4 class="title"><span class="text"><strong>Your</strong> Wishlist</span></h4>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+                  <th>  </th>
+									<th>Image</th>
+									<th>Product Name</th>
+									<th>Unit Price</th>
+                  <th>  </th>
+                  <th>  </th>
+								</tr>
+							</thead>
+							<tbody>
 
-              if (isset($_GET['pl'])) {
-                $id = $_GET['pl'];
-                $productList = new productdb;
-                $arr = $productList->getProductbyCategory($id);
-                $arr = array_reverse($arr);
+                  <?php
 
-                foreach ($arr as $a) {
-                  $pid = $a["ProductID"];
-                  $pname = $a["ProductName"];
-                  $pprice = $a["ProductPrice"];
-                  $pimage = $productList->getProductImage($pid);
-                  $pimage = $pimage[0];
-                  $pimage = $pimage["ProductImage"];
-                echo "<li class='span3'>
-                    <div class='product-box'>
-                      <span class='sale_tag'></span>
-                      <a href='product_detail.php?pid=$pid'><img alt='' src='$pimage'></a><br/>
-                      <a href='product_detail.php?pid=$pid' class='title'>$pname</a><br/>
-                      <p class='price'>$pprice BAHT</p>
-                    </div>
-                  </li>";
-                }
-              }
+                    $wishlist = new wishlist($_SESSION['uid']);
+                    $num = 0;
 
-							 ?>
-						</ul>
-						<hr>
-					</div>
-					<div class="span3 col">
-						<div class="block">
-							<h4 class="title"><strong>Best</strong> Seller</h4>
-							<ul class="small-product">
-								<li>
-									<a href="#" title="Praesent tempor sem sodales">
-										<img src="themes/images/nendoroidImage/1.jpg" alt="Praesent tempor sem sodales">
-									</a>
-									<a href="#">Productname</a>
-								</li>
-							</ul>
-						</div>
+                    foreach ($wishlist->getWishlist() as $key) {
+                      echo "<tr>";
+                      $product = new product();
+                      $product->selectProduct($key['ProductID']);
+                      $pid = $product->getID();
+                      $pimg = $product->getImage();
+                      $pimg = $pimg[0];
+                      $pimg = $pimg['ProductImage'];
+                      $pname = $product->getName();
+                      $pprice = $product->getPrice();
+
+                      $num += 1;
+
+                      echo "<td>$num</td>
+                      <td><a href='product_detail.php?pid=$pid'><img style='max-height:100px; width:auto;' src='$pimg'></a></td>
+                      <td><a href='product_detail.php?pid=$pid'>$pname</a></td>
+
+                      <td>$pprice THB</td>
+                      <td><form class='form-inline' action='cart-process.php?pid=".$pid."' method='POST'>
+                        <button class='btn' name='addtocart' type='submit'>Add this product to cart</button></form></td>
+
+                        <td><form class='form-inline' action='cart-process.php?pid=".$pid."' method='POST'>
+                          <button class='btn' name='removewishlist' type='submit'>Remove</button></form></td>
+
+                      </tr>";
+                    }
+
+                    echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
+
+							echo "</tbody>
+						</table>
+
+						<hr>";
+
+
+              ?>
+						</p>
 					</div>
 				</div>
 			</section>
+
 		</div>
-		<script src="themes/js/common.js"></script>
     </body>
 </html>
