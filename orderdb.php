@@ -7,15 +7,14 @@ class orderdb {
     $this->cart = $cart;
 
     $customer = $cart->getCustomerID();
-    $status = "Unsuccess";
-    $status = mysqli_real_escape_string($con,$status);
+    $status = false;
     $allItem = $cart->getCart();
 
-    $sql = "SELECT OrderID FROM orders ORDER BY OrderID DESC LIMIT 1";
+    $sql = "SELECT trxID FROM orders ORDER BY OrderID DESC LIMIT 1";
     $run_query = mysqli_query($con,$sql);
     $result = mysqli_fetch_array($run_query);
     $result = $result[0]+1;
-    $trxid = "$result".''."$customer";
+    $trxid = "$result";
 
     foreach ($allItem as $key) {
 

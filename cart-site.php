@@ -44,25 +44,25 @@ require_once('cartdb.php');
 				<div class="span8">
 					<div class="account pull-right">
 						<ul class="user-menu">
-							<?php
-							if (isset($_SESSION['uid'])){
-								if ($_SESSION['uid'] == "admin"){
-									echo "<b>Hey! ".$_SESSION['uid']."</b>
-								<li><a href='addProduct.php'>Add Product</a></li>
-								<li><a href='logout.php'>Logout</a></li>";
-								}
-								else {
-									echo "<b>Hey! ".$_SESSION['uid']."</b>
-								<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>
-								<li><a href='checkout.html'>Checkout</a></li>
-								<li><a href='logout.php'>Logout</a></li>";
-								}
-						} else {
-							echo "<li><a href='cart.html'>Your Cart</a></li>
-							<li><a href='checkout.html'>Checkout</a></li>
-							<li><a href='register.php'>Login</a></li>";
-						}
-							 ?>
+              <?php
+                if ($_SESSION['uid'] == "admin") {
+                  echo "<b>Hey! ".$_SESSION['uid']."</b>
+   							<li><a href='addProduct.php'>Add Product</a></li>
+   							<li><a href='logout.php'>Logout</a></li>";
+                }
+                else {
+                  echo "<b>Hey! ".$_SESSION['uid']."</b>";
+                  if ($_SESSION['W_qty'] > 0){
+                    echo "<li><a href='wishlist-page.php'>Wishlist (".$_SESSION['W_qty'].")</a></li>";
+                  }
+                if ($_SESSION['C_qty'] > 0){
+                  echo "<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>";
+                }
+                echo "<li><a href='logout.php'>Logout</a></li>";
+                }
+
+               ?>
+
 						</ul>
 					</div>
 				</div>
@@ -111,7 +111,7 @@ require_once('cartdb.php');
 								</tr>
 							</thead>
 							<tbody>
-
+                <form method="POST" action="cart-process.php">
                   <?php
 
                     $cart = new cart($_SESSION['uid']);
@@ -134,10 +134,10 @@ require_once('cartdb.php');
                       $total += $ttl;
                       $num += 1;
 
-                      echo "<td><input name='check' type='checkbox' value='option1'></td>
+                      echo "<td><input name='checkremove[]' type='checkbox' value=$pid></td>
                       <td><a href='product_detail.php?pid=$pid'><img style='max-height:100px; width:auto;' src='$pimg'></a></td>
                       <td>$pname</td>
-                      <td><form method='post'><input type='text' name='quantity$num' placeholder=$qty class='input-mini'></form></td>
+                      <td><input type='text' name='quantity[]' value=$qty class='input-mini'></td>
 
                       <td>$pprice THB</td>
                       <td>$ttl THB</td>
@@ -152,29 +152,30 @@ require_once('cartdb.php');
 
 							echo "</tbody>
 						</table>
-            <h5>Do you have an coupon?</h5>
-						<form method='POST' action='cart-process.php'>
-              <input type='text' name='coupon' placeholder='Use your coupon here'/> &nbsp;&nbsp;
-              <input class='btn btn-inverse' name='updatecoupon' type='submit' value='update'/>
-            </form>
+
 						<hr>
-						<p class='cart-total right'>
+						<p class='cart-total left'>
 							<strong>Sub-Total</strong>:	$total THB<br>
 							<strong>VAT (7%)</strong>: $vat THB<br>
-							<strong>Total</strong>: $totals THB<br>";
+							<strong>Total</strong>: $totals THB<br></p><hr/>
+
+              <hr><h5>Do you have a coupon?</h5>
+                <input type='text' name='coupon' placeholder='Use your coupon here'/> &nbsp;&nbsp;
+                <input class='btn btn-inverse' name='updatecoupon' type='submit' value='update'/>
+              <hr/>";
 
 
               echo "
-						</p>
+
 						<hr/>
 						<p class='form-inline' >
-							<form method='POST' action='cart-process.php'>
-								<input class='btn' type='submit' name='update' value='Update'/>
+								<input class='btn' type='submit' name='updatecart' value='Update'/>
 								<input class='btn' type='button' value='Continue' onclick='history.go(-1);'/>
 								<input class='btn btn-inverse' name='checkout' type='submit' value='Checkout'/>
                 ";?>
-							</form>
-						</p>
+                </p>
+            </form>
+
 					</div>
 				</div>
 			</section>

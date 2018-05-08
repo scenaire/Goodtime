@@ -193,10 +193,24 @@ class productdb {
     $run_query = mysqli_query($con,$sql);
   }
 
-  public function newCatagory($CatName) {
+  public function newCatagory($CatName,$header) {
     require "db.php";
-    $sql = "INSERT INTO productcategories (CategoryName)
-    VALUES('$CatName')";
+
+    $name = mysqli_real_escape_string($con,$CatName);
+    $header = mysqli_real_escape_string($con,$header);
+
+    $sql = "INSERT INTO productcategories (CategoryName,CatagoryHeader)
+    VALUES('$CatName','$header')";
+
+    if ($con->query($sql)===true) {
+      return true;
+    }
+    else {
+      return false;
+    }
+
+    $con->close();
+
   }
 
   function custom_shuffle($list) {

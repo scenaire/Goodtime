@@ -1,5 +1,12 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
 require "cart.php";
 require "cartdb.php";
 require "order.php";
@@ -27,6 +34,23 @@ if ($aa == true) {
 //echo $user->getEmail();
 //echo $user->getCustomerbyUsername("Tempesta");
 
+/**
+ *
+ */
+
+
+ $mail = new PHPMailer;
+ $mail->setFrom('tempesta-psyzeoul@hotmail.com', 'Erianecs');
+ $mail->addAddress('tempesta-psyzeoul@hotmail.com', 'Scenaire');
+ $mail->Subject  = 'First PHPMailer Message';
+ $mail->Body     = 'Hi! This is my first e-mail sent through PHPMailer.';
+ if(!$mail->send()) {
+   echo 'Message was not sent.';
+   echo 'Mailer error: ' . $mail->ErrorInfo;
+ } else {
+   echo 'Message has been sent.';
+ }
+
 //$obj = new product;
 //$product = new product;
 //$product->selectProduct(4);
@@ -48,14 +72,14 @@ if ($aa == true) {
 
 //mail($to,$subject,$txt,$headers);
 
-$wishlist = new wishlist("scenaire");
+/*$wishlist = new wishlist("scenaire");
 print_r($wishlist->getWishlist());
 echo "<br><br>";
 echo $wishlist->getWishlistCount();
 echo "<br><br>";
 
 $wishlistdb = new wishlistdb;
-print_r($wishlistdb->getItemList("scenaire"));
+print_r($wishlistdb->getItemList("scenaire"));*/
 
 
 /*$productList = new productdb;

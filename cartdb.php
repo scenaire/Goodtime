@@ -47,7 +47,7 @@ class cartdb {
     $uid = mysqli_real_escape_string($con,$uid);
     $sql = "UPDATE cart SET Quantity = '$quantity' WHERE Username = '$uid' AND ProductID = '$pid'";
     if ($con->query($sql) === true) {
-      echo "success";
+      //echo "success";
     } else {
       return "Error: ". $sql . "<br>" .$con->error;
     }

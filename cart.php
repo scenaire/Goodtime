@@ -23,26 +23,23 @@ Class cart {
   public function updateItem($p_id,$quantity) {
     $cartdb = new cartdb;
     $cartdb->updateItem($this->customer,$p_id,$quantity);
+  }
 
-    /*for ($i=0;$i<count($this->cart);$i++) {
-      if ($this->cart[$i]['id'] === $p_id) {
-        $index = $i;
-      }
-    }
-    unset($this->cart[$index]);
-    $temp = array();
-    foreach ($this->cart as $value) {
-      array_push($this->cart,$value);
-    }
-    $this->cart = $temp;
-    unset($temp);*/
+  public function updatecart() {
+    $cartdb = new cartdb;
+    $this->cart = $cartdb->getItemList($this->customer);
+  }
+
+  public function removeItem($pid) {
+    $cartdb = new cartdb;
+    $cartdb->removeItem($this->customer,$pid);
   }
 
   public function removeAllItem() {
     $cartdb = new cartdb;
     foreach ($this->cart as $key) {
       $pid = $key['ProductID'];
-      echo $cartdb->removeItem($this->customer,$pid);
+      $cartdb->removeItem($this->customer,$pid);
     }
   }
 

@@ -6,6 +6,7 @@ require_once('productdb.php');
 
 unset($_SESSION['messageE']);
 unset($_SESSION['messageS']);
+unset($_SESSION['messageC']);
 
 if (isset($_POST["addP"])) {
 		$pName = ($_POST["pName"]);
@@ -41,6 +42,11 @@ if (isset($_POST["addP"])) {
 			$product = new product;
 			$_SESSION['messageS'] = $product->addItem($pName,$pPrice,$img,$pCategory,$pStock,$pDecs);
 		}
+} elseif (isset($_POST["newCatagory"])) {
+	$productdb = new productdb;
+	$cName = $_POST["cName"];
+	$cheader = "Product_image/".$_POST["cheader"];
+	$_SESSION['messageC'] = $productdb->newCatagory($cName,$cheader);
 }
 
 
@@ -129,8 +135,39 @@ if (isset($_POST["addP"])) {
 					<div class="span9">
 						<div class="row">
 
-							<div class="span5">
+							<div class="span3 col">
+                  <h4 class="title"><span class="text"><strong>Category</strong> Form</span></h4>
+                  <form action="addProduct.php" method="post" class="form-stacked">
+                    <fieldset>
+											<?php
 
+											if (isset($_SESSION['messageC'])) {
+												if ($_SESSION['messageC'] == true) {
+													echo "<div class='alert alert-success'> <strong>Congratulations!</strong> this product has been added. </div>";
+												} else {
+													echo "<div class='alert alert-error'> <strong>ข้อผิดพลาด!</strong> ไม่สามารถเพิ่มสินค้าได้ อาจมีสินค้าชนิดนี้อยู่แล้ว </div>";
+												}
+											}
+
+											 ?>
+                      <div class="control-group">
+                        <label class="control-label">Name:</label>
+                        <div class="controls">
+                          <input type="text" name="cName">
+                        </div>
+                      </div>
+
+                        <from action="/action_page.php">
+													<label>Header : </label>
+                          <input type="file" name="cheader" accept="image/*" value="Browse..">
+                        </from>
+                      <hr>
+                        <div class="actions"><input tabindex="9" name="newCatagory" class="btn btn-inverse large" type="submit" value="Save"></div>
+                  </fieldset>
+                </form>
+							</div>
+
+							<div class="span5">
                 <div class="span7">
                   <h4 class="title"><span class="text"><strong>Product</strong> Form</span></h4>
                   <form action="addProduct.php" method="post" class="form-stacked">
@@ -208,32 +245,10 @@ if (isset($_POST["addP"])) {
                 </form>
               </div>
 						</div>
-							<div class="span5">
-							</div>
 						</div>
 					</div>
 				</div>
 			</section>
 		</div>
-		<script src="themes/js/common.js"></script>
-		<script>
-			$(function () {
-				$('#myTab a:first').tab('show');
-				$('#myTab a').click(function (e) {
-					e.preventDefault();
-					$(this).tab('show');
-				})
-			})
-			$(document).ready(function() {
-				$('.thumbnail').fancybox({
-					openEffect  : 'none',
-					closeEffect : 'none'
-				});
-
-				$('#myCarousel-2').carousel({
-                    interval: 2500
-                });
-			});
-		</script>
     </body>
 </html>

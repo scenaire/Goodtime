@@ -21,6 +21,11 @@ Class wishlist {
     $wishlistdb->removeItem($this->customer,$p_id);
   }
 
+  public function updateWishlist() {
+    $wishlistdb = new wishlistdb;
+    $this->wishlist = $wishlistdb->getItemList($this->customer);
+  }
+
   public function getWishlist() {
     return $this->wishlist;
   }

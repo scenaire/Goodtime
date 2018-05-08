@@ -123,25 +123,12 @@ if(isset($_SESSION["uid"])){
 															$pimage = $pimage[0];
 															$pimage = $pimage["ProductImage"];
 
-															switch ($category) {
-																case 1:
-																	$link = "miniatureList.php";
-																	break;
-																	case 2:
-																		$link = "nendoroidList.php";
-																		break;
-																		case 3:
-																			$link = "funkoList.php";
-																			break;
-																			default: $link = "product_detail.php";
-															}
-
 															echo "<li class='span3'>
 																<div class='product-box'>
 																	<span class='sale_tag'></span>
 																	<p><a href='product_detail.php?pid=$pid'><img src='$pimage'></a></p>
-																	<a href='product_detail.php' class='title'>".$pname."</a><br/>
-																	<a href=$link class='category'>".$pcategory." </a>
+																	<a href='product_detail.php?=$pid' class='title'>".$pname."</a><br/>
+																	<a href='product_list.php?pl=$category'class='category'>".$pcategory."</a>
 																	<p class='price'>".$pprice." BAHT</p>
 																</div>
 															</li>";
@@ -177,7 +164,7 @@ if(isset($_SESSION["uid"])){
 															<div class='product-box'>
 																<span class='sale_tag'></span>
 																<p><a href='product_detail.php?pid=$pid'><img src='$pimage'></a></p>
-																<a href='product_detail.php' class='title'>".$pname."</a><br/>
+																<a href='product_detail.php?=$pid' class='title'>".$pname."</a><br/>
 																<a href=$link class='category'>".$pcategory."</a>
 																<p class='price'>".$pprice." BAHT</p>
 															</div>

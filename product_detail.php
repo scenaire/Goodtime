@@ -44,24 +44,26 @@ require_once('productdb.php');
 					<div class="account pull-right">
 						<ul class="user-menu">
               <?php
-                if ($_SESSION['uid'] == "admin") {
-                  echo "<b>Hey! ".$_SESSION['uid']."</b>
-   							<li><a href='addProduct.php'>Add Product</a></li>
-   							<li><a href='logout.php'>Logout</a></li>";
-                }
-                else {
-                  echo "<b>Hey! ".$_SESSION['uid']."</b>";
-                  if ($_SESSION['W_qty'] > 0){
-                    echo "<li><a href='wishlist-page.php'>Wishlist (".$_SESSION['W_qty'].")</a></li>";
+                if (isset($_SESSION['uid'])) {
+                  if ($_SESSION['uid'] == "admin") {
+                    echo "<b>Hey! ".$_SESSION['uid']."</b>
+     							<li><a href='addProduct.php'>Add Product</a></li>
+     							<li><a href='logout.php'>Logout</a></li>";
                   }
-                if ($_SESSION['C_qty'] > 0){
-                  echo "<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>";
+                  else {
+                    echo "<b>Hey! ".$_SESSION['uid']."</b>";
+                    if ($_SESSION['W_qty'] > 0){
+                      echo "<li><a href='wishlist-page.php'>Wishlist (".$_SESSION['W_qty'].")</a></li>";
+                    }
+                  if ($_SESSION['C_qty'] > 0){
+                    echo "<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>";
+                  }
+                  echo "<li><a href='logout.php'>Logout</a></li>";
+                  }
+                } else {
+                  echo "<li><a href='register.php'>Login</a></li>";
                 }
-                echo "<li><a href='logout.php'>Logout</a></li>";
-                }
-
-               ?>
-
+                ?>
 						</ul>
 					</div>
 				</div>
@@ -202,7 +204,7 @@ require_once('productdb.php');
 																<div class='product-box'>
 																	<span class='sale_tag'></span>
 																	<p><a href='product_detail.php?pid=$pid'><img src='$pimage'></a></p>
-																	<a href='product_detail.php' class='title'>".$pname."</a><br/>
+																	<a href='product_detail.php?pid=$pid' class='title'>".$pname."</a><br/>
 																	<a href='product_list.php?pl=$category' class='category'>".$pcategory."</a>
 																	<p class='price'>".$pprice." BAHT</p>
 																</div>
