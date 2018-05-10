@@ -6,6 +6,7 @@ require_once('order.php');
 require_once('orderdb.php');
 require_once('user.php');
 require_once('userdb.php');
+require_once('shipping.php');
 require_once('promotiondb.php');
  ?>
 
@@ -126,93 +127,114 @@ require_once('promotiondb.php');
 							<tbody>
                   <?php
 
-                  $order = new order;
-                  $trx = isset($_GET['trx']) ? $_GET['trx'] : '';
-                  $order->getOrderbyTrxID($trx);
-                  $promotion = $order->getPromotion();
-                  $num = 0;
 
-                  foreach ($order->getProduct() as $key) {
-                    echo "<tr>";
-                    $product = new product();
-                    $product->selectProduct($key['ProductID']);
-                    $pid = $product->getID();
-                    $pimg = $product->getImage();
-                    $pimg = $pimg[0];
-                    $pimg = $pimg['ProductImage'];
-                    $pname = $product->getName();
-                    $pprice = $product->getPrice();
-                    $qty = $key['Quantity'];
-                    $ttl = $qty*$pprice;
+                    $order = new order;
+                    $trx = isset($_GET['trx']) ? $_GET['trx'] : '';
+                    $order->getOrderbyTrxID($trx);
+                    $promotion = $order->getPromotion();
+                    $num = 0;
 
-                    $num += 1;
+                    foreach ($order->getProduct() as $key) {
+                      echo "<tr>";
+                      $product = new product();
+                      $product->selectProduct($key['ProductID']);
+                      $pid = $product->getID();
+                      $pimg = $product->getImage();
+                      $pimg = $pimg[0];
+                      $pimg = $pimg['ProductImage'];
+                      $pname = $product->getName();
+                      $pprice = $product->getPrice();
+                      $qty = $key['Quantity'];
+                      $ttl = $qty*$pprice;
 
-                    echo "<td>$num</td>
-                    <td><a href='product_detail.php?pid=$pid'><img style='max-height:100px; width:auto;' src='$pimg'></a></td>
-                    <td>$pname</td>
-                    <td>$qty</td>
+                      $num += 1;
 
-                    <td>$pprice THB</td>
-                    <td>$ttl THB</td>
-                    </tr>";
-                  }
+                      echo "<td>$num</td>
+                      <td><a href='product_detail.php?pid=$pid'><img style='max-height:100px; width:auto;' src='$pimg'></a></td>
+                      <td>$pname</td>
+                      <td>$qty</td>
 
-                  $total = $order->getPrice();
-                  $vat = ($total*7)/100;
-                  $net = $order->getNetPrice();
-
-
-
-                  if(!empty($promotion)) {
-                    $promotiondb = new promotiondb;
-                    $pr = $promotiondb->getPromotionfromID($promotion);
-                    $type = $pr['PromotionType'];
-                    $discount = $pr['PromotionDiscount'];
-                    if ($type == "fix") {
-                      $pd = $discount;
-                    } elseif ($type == "percent") {
-                      $pd = $total * ($discount/100);
+                      <td>$pprice THB</td>
+                      <td>$ttl THB</td>
+                      </tr>";
                     }
-                  } else {
-                    $pd = 0;
-                  }
 
-                  echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
-                  echo "<td><h5><strong>$total THB</strong></h5></td>";
+                    $total = $order->getPrice();
+                    $vat = ($total*7)/100;
+                    $net = $order->getNetPrice();
 
 
 
-                echo "</tbody>
-                </table>
+                    if(!empty($promotion)) {
+                      $promotiondb = new promotiondb;
+                      $pr = $promotiondb->getPromotionfromID($promotion);
+                      $type = $pr['PromotionType'];
+                      $discount = $pr['PromotionDiscount'];
+                      if ($type == "fix") {
+                        $pd = $discount;
+                      } elseif ($type == "percent") {
+                        $pd = $total * ($discount/100);
+                      }
+                    } else {
+                      $pd = 0;
+                    }
 
-                <hr>
-                <p class='cart-total left'>
-                <strong>Sub-Total</strong>:	$total THB<br>
-                <strong>VAT (7%)</strong>: $vat THB<br>
-                <strong>Promotion Discount</strong>: $pd THB<br>
-                <strong>Total</strong>: $net THB<br></p><hr/>";
+                    echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
+                    echo "<td><h5><strong>$total THB</strong></h5></td>";
 
-                ?>
+
+
+                  echo "</tbody>
+                  </table>
+
+                  <hr>
+                  <p class='cart-total left'>
+                  <strong>Sub-Total</strong>:	$total THB<br>
+                  <strong>VAT (7%)</strong>: $vat THB<br>
+                  <strong>Promotion Discount</strong>: $pd THB<br>
+                  <strong>Total</strong>: $net THB<br></p><hr/>";
+              ?>
             </div>
 					</div>
           <div class="span10">
             <div class="span8">
-						<h4 class="title"><span class="text"><strong>Your</strong> Address</span></h4>
 
-            <?php
+            <h4 class="title"><span class="text"><strong>Payment</strong> method</span></h4>
 
-            $trx = isset($_GET['trx']) ? $_GET['trx'] : '';
-            echo "<form method='POST' action='cart-process.php?trx=$trx'>";
-           ?>
+            <h5>การชำระเงิน</h5>
+
+              <?php
+              $trx = isset($_GET['trx']) ? $_GET['trx'] : '';
+              $order = new order;
+              $order->getOrderbyTrxID($trx);
+              switch ($order->getPayment()) {
+                case "bank": echo "<h6> โอนผ่านธนาคาร </h6>"; break;
+                case "paypal": echo "<h6> ชำระผ่าน Paypal </h6>"; break;
+                case "credit": echo "<h6> ชำระผ่านบัตรเครดิต </h6>"; break;
+              }
+              echo "<br><h5>สถานะการชำระเงิน</h5>";
+
+              if ($order->getStatus()) {
+                echo "   <h6>ชำระเงินเรียบร้อยแล้ว</h6>";
+              } else {
+                echo "   <h6>รอการชำระเงิน</h6>";
+              }
+
+              ?>
+
+            <br><br>
+
+            <h4 class="title"><span class="text"><strong>Your</strong> Address</span></h4>
+
 
             <div class="control-group">
               <label class="control-label">Name:</label>
               <div class="controls">
                 <?php
-                $user = new user;
-                $user->selectUser($_SESSION['uid']);
-                $first = $user->getFName()." ".$user->getLname();
-                echo "<input type='text' value='$first' name='name' class='input-xlarge'>";
+                $trx = isset($_GET['trx']) ? $_GET['trx'] : '';
+                $shipping = new shipping($trx);
+                $first = $shipping->getName();
+                echo "<p>".$first."</p>";
                 ?>
               </div>
             </div>
@@ -221,34 +243,20 @@ require_once('promotiondb.php');
               <label class="control-label">Address:</label>
               <div class="controls">
                 <?php
-                $user = new user;
-                $user->selectUser($_SESSION['uid']);
-                $address = $user->getAddress();
-                echo "<textarea name='address' style='height:100px; width:350px;' rows='5' cols='69'>".$address."</textarea>";
+                $trx = isset($_GET['trx']) ? $_GET['trx'] : '';
+                $shipping = new shipping($trx);
+                $address = $shipping->getAddress();
+                echo "<p>".$address."</p>";
                 ?>
                 <br><br>
               </div>
             </div>
 
-
-            <h4 class="title"><span class="text"><strong>Payment</strong> method</span></h4>
-
-            <h5>Option</h5>
-
-            <h5>
-            <input type="radio" name="payment" value="paypal"> Paypal &nbsp;&nbsp;
-            <input type="radio" name="payment" value="credit"> Credit-Card &nbsp;&nbsp;
-            <input type="radio" name="payment" value="bank"> โอนผ่านธนาคาร &nbsp;&nbsp;
-            <br><br>
-          </h5>
-
           <br>
 
-          <input tabindex="9" name="checkoutwithshipping" class="btn btn-inverse large" type="submit" value="Save">
 
           <br><br>
 
-        </form>
 
           </div>
 					</div>

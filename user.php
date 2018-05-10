@@ -23,6 +23,7 @@ class user {
       $this->lname = $temp['CustLName'];
       $this->address = $temp['CustAddress'];
       $this->email = $temp['CustEmail'];
+      $this->letter = $temp['sendpromotion'];
       $this->username = $username;
       $this->password = $password;
       return true;
@@ -33,7 +34,6 @@ class user {
   }
 
   public function selectUser($user) {
-    require_once('userdb.php');
     $userdb = new userdb;
     $temp = $userdb->getCustomer($user);
     $this->fname = $temp['CustFName'];
@@ -42,7 +42,7 @@ class user {
     $this->email = $temp['CustEmail'];
     $this->username = $user;
     $this->password = $temp['password'];
-    $this->letter = $temp['letter'];
+    $this->letter = $temp['sendpromotion'];
   }
 
   public function getEmail() {

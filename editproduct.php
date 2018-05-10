@@ -36,7 +36,8 @@ if (isset($_POST["update"])) {
       $pid = $_GET['pid'];
       $product->selectProduct($pid);
 			$_SESSION['messageS'] = $product->updateProduct($pName,$pPrice,$img,$pCategory,$pStock,$pDecs);
-      header("location:product_detail.php?pid=$pid");
+			print_r($img);
+      //header("location:product_detail.php?pid=$pid");
     }
 } elseif (isset($_POST["remove"])) {
   $pid = $_GET['pid'];
@@ -93,10 +94,29 @@ if (isset($_POST["update"])) {
 					<div class="account pull-right">
 						<ul class="user-menu">
 							<?php
-							echo "<b>Hey! ".$_SESSION['uid']."</b>
-						<li><a href='addProduct.php'>Add Product</a></li>
-						<li><a href='logout.php'>Logout</a></li>";
-							 ?>
+								if (isset($_SESSION['uid'])) {
+									if ($_SESSION['uid'] == "admin") {
+										echo "<b>Hey! ".$_SESSION['uid']."</b>
+									<li><a href='addProduct.php'>Add Product</a></li>
+									<li><a href='updatetrack.php'>อัพเดทแทรค</a></li>
+									<li><a href='promotion-site.php'>อัพเดทโปรโมชั่น</a></li>
+									<li><a href='logout.php'>Logout</a></li>";
+									}
+									else {
+										echo "<b>Hey! ".$_SESSION['uid']."</b>";
+										if ($_SESSION['W_qty'] > 0){
+											echo "<li><a href='wishlist-page.php'>Wishlist (".$_SESSION['W_qty'].")</a></li>";
+										}
+									if ($_SESSION['C_qty'] > 0){
+										echo "<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>";
+									}
+									echo "<li><a href='order-profile.php'>ประวัติการสั่งซื้อ</a></li>";
+									echo "<li><a href='logout.php'>Logout</a></li>";
+									}
+								} else {
+									echo "<li><a href='register.php'>Login</a></li>";
+								}
+								?>
 						</ul>
 					</div>
 				</div>
@@ -276,7 +296,7 @@ if (isset($_POST["update"])) {
             echo "<div class='col-sm-6 col-sm-offset-3'>";
 
             for ($x = 0; $x < 5; $x++) {
-              $i = $x+1;
+              $i = "pic".($x+1);
               if(isset($image[$x])) {
                 $img = $image[$x];
                 $img = $img['ProductImage'];
@@ -284,12 +304,12 @@ if (isset($_POST["update"])) {
                 <from>
                 <div class='form-group'>";
                 echo "<img style='max-height:100px; width:auto;' src='$img'>";
-                echo "<input type='file' name='pic$i' accept='image/*'' value='Browse..'>
+                echo "<input type='file' name=$i accept='image/*'' value='Browse..'>
                 </div></from><hr>";
               } else {
                 echo "<from>
                 <div class='form-group'>";
-                echo "<input type='file' name='pic$i' accept='image/*'' value='Browse..'></div></from>";
+                echo "<input type='file' name=$i accept='image/*'' value='Browse..'></div></from>";
               }
             }
 

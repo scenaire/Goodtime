@@ -4,6 +4,7 @@ require_once('product.php');
 require_once('productdb.php');
 require_once('cart.php');
 require_once('cartdb.php');
+require_once('promotiondb.php');
  ?>
 
 <!DOCTYPE html>
@@ -45,23 +46,29 @@ require_once('cartdb.php');
 					<div class="account pull-right">
 						<ul class="user-menu">
               <?php
-                if ($_SESSION['uid'] == "admin") {
-                  echo "<b>Hey! ".$_SESSION['uid']."</b>
-   							<li><a href='addProduct.php'>Add Product</a></li>
-   							<li><a href='logout.php'>Logout</a></li>";
-                }
-                else {
-                  echo "<b>Hey! ".$_SESSION['uid']."</b>";
-                  if ($_SESSION['W_qty'] > 0){
-                    echo "<li><a href='wishlist-page.php'>Wishlist (".$_SESSION['W_qty'].")</a></li>";
+                if (isset($_SESSION['uid'])) {
+                  if ($_SESSION['uid'] == "admin") {
+                    echo "<b>Hey! ".$_SESSION['uid']."</b>
+     							<li><a href='addProduct.php'>Add Product</a></li>
+                  <li><a href='updatetrack.php'>อัพเดทแทรค</a></li>
+                  <li><a href='promotion-site.php'>อัพเดทโปรโมชั่น</a></li>
+     							<li><a href='logout.php'>Logout</a></li>";
                   }
-                if ($_SESSION['C_qty'] > 0){
-                  echo "<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>";
+                  else {
+                    echo "<b>Hey! ".$_SESSION['uid']."</b>";
+                    if ($_SESSION['W_qty'] > 0){
+                      echo "<li><a href='wishlist-page.php'>Wishlist (".$_SESSION['W_qty'].")</a></li>";
+                    }
+                  if ($_SESSION['C_qty'] > 0){
+                    echo "<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>";
+                  }
+                  echo "<li><a href='order-profile.php'>ประวัติการสั่งซื้อ</a></li>";
+                  echo "<li><a href='logout.php'>Logout</a></li>";
+                  }
+                } else {
+                  echo "<li><a href='register.php'>Login</a></li>";
                 }
-                echo "<li><a href='logout.php'>Logout</a></li>";
-                }
-
-               ?>
+                ?>
 
 						</ul>
 					</div>
@@ -151,19 +158,47 @@ require_once('cartdb.php');
                     $totals = $total+$vat;
 
 							echo "</tbody>
-						</table>
+						</table>";
 
-						<hr>
+						echo "<hr>
 						<p class='cart-total left'>
 							<strong>Sub-Total</strong>:	$total THB<br>
 							<strong>VAT (7%)</strong>: $vat THB<br>
-							<strong>Total</strong>: $totals THB<br></p><hr/>
+							<strong>Total</strong>: $totals THB<br>";
 
-              <hr><h5>Do you have a coupon?</h5>
-                <input type='text' name='coupon' placeholder='Use your coupon here'/> &nbsp;&nbsp;
-                <input class='btn btn-inverse' name='updatecoupon' type='submit' value='update'/>
-              <hr/>";
+              if (isset($_GET['promotion'])) {
+                $promotiondb = new promotiondb;
+                $promotion = $promotiondb->getPromotionfromCode($_GET['promotion']);
+                $promotion = $promotion[0];
+                $code = $promotion['PromotionCode'];
+                $type = $promotion['PromotionType'];
+                $discount = $promotion['PromotionDiscount'];
+                $_SESSION['promotion'] = $promotion['PromotionID'];
 
+                if ($type == "fix") {
+                  echo "<strong>Discount</strong>: - $discount <br>";
+                  $netprice = $totals - $discount;
+                  echo "<strong>Net - Price</strong>: $netprice <br>";
+                } elseif ($type == "percent") {
+                  echo "<strong>Discount</strong>: $discount % <br>";
+                  $netprice = $totals * ((100-$discount)/100);
+                  echo "<strong>Net - Price</strong>: $netprice <br>";
+                }
+              }
+
+            echo "</p><hr/>";
+
+            if (isset($_GET['promotion'])) {
+              echo "<hr><h5>Do you have a coupon?</h5>
+                  <input type='text' name='coupon' value='$code'/> &nbsp;&nbsp;
+                  <input class='btn btn-inverse' name='updatecoupon' type='submit' value='update'/>
+                <hr/>";
+            } else {
+              echo "<hr><h5>Do you have a coupon?</h5>
+                  <input type='text' name='coupon' placeholder='Use your coupon here'/> &nbsp;&nbsp;
+                  <input class='btn btn-inverse' name='updatecoupon' type='submit' value='update'/>
+                <hr/>";
+            }
 
               echo "
 

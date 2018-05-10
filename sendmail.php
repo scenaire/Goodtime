@@ -3,7 +3,6 @@
 session_start();
 require_once('product.php');
 require_once('productdb.php');
-require_once('promotiondb.php');
 
 ?>
 
@@ -107,110 +106,32 @@ require_once('promotiondb.php');
 				<div class="row">
 					<div class="span9">
 						<div class="row">
-
-							<div class="span3 col">
-                  <h4 class="title"><span class="text"><strong>Add</strong> Promotion</span></h4>
-                  <form action="cart-process.php" method="post" class="form-stacked">
-                    <fieldset>
-                      <div class="control-group">
-                        <label class="control-label">Name:</label>
-                        <div class="controls">
-                          <input type="text" name="prName">
-                        </div>
-                      </div>
-
-                      <div class="control-group">
-                        <label class="control-label">Code:</label>
-                        <div class="controls">
-                          <input type="text" name="prCode">
-                        </div>
-                      </div>
-
-											<div class="control-group">
-                        <label class="control-label">จะต้องซื้อครบ :</label>
-                        <div class="controls">
-                          <input type="text" name="prCondition">
-                        </div>
-                      </div>
-
-                      <div class="control-group">
-                          <label class="control-label">Category:</label>
-                          <div class="controls">
-														<select name="prGroup">
-                              <option value="fix">Fix</option>
-                              <option value="percent">Percent</option>
-														</select>
-                            </div>
-                      </div>
-
-                      <div class="control-group">
-                        <label class="control-label">Discount :</label>
-                        <div class="controls">
-                          <input type="text" name="prDiscount">
-                        </div>
-                      </div>
-
-
-                      <hr>
-                        <div class="actions"><input tabindex="9" name="newPromotion" class="btn btn-inverse large" type="submit" value="Save"></div>
-                  </fieldset>
-                </form>
-							</div>
-
 							<div class="span5">
                 <div class="span7">
-                  <h4 class="title"><span class="text"><strong>Promotion</strong> List</span></h4>
-									<table class="table table-striped">
-										<thead>
-											<tr>
-			                  <th>No. </th>
-												<th>Name</th>
-												<th>Code</th>
-												<th>จะต้องซื้อครบ</th>
-												<th>Discount</th>
-												<th>Remove</th>
-											</tr>
-										</thead>
-										<tbody>
-			                  <?php
+                  <h4 class="title"><span class="text"><strong>Sending</strong> Email to customer</span></h4>
+                  <form action="sendmail.php" method="post" class="form-stacked">
+                    <fieldset>
 
-			                    $promotiondb = new promotiondb;
-			                    $num = 1;
+                       <label>อีเมล์นี้จะส่งให้เฉพาะลูกค้าที่ลงทะเบียน newsletter เท่านั้น</label><br>
 
-			                    foreach ($promotiondb->getPromotionList() as $key) {
-			                      echo "<tr>";
+                      <div class="control-group">
+                        <label class="control-label">Subject:</label>
+                        <div class="controls">
+                          <input type="text" name="eName">
+                        </div>
+                      </div>
 
-														$prid = $key['PromotionID'];
-														$name = $key['PromotionName'];
-														$discount = $key['PromotionDiscount'];
-														$type = $key['PromotionType'];
-														$code = $key['PromotionCode'];
-														$condition = $key['PromotionCondition'];
+                      <div class="control-group">
+                        <label class="control-label">Entry:</label>
 
-			                      echo "<td>$num</td>
-			                      <td>$name</td>
-														<td>$code</td>
-														<td>$condition</td>";
-
-														if ($type == "percent") {
-															echo "<td>".$discount." %</td>";
-														} elseif ($type == "fix") {
-															echo "<td>-".$discount."</td>";
-														}
-
-														echo "<td><form action='cart-process.php?prid=".$prid."' method='POST'>
-				                      <button class='btn' name='removepromotion' type='submit'>Remove</button></form></td>
-				                    </tr>";
-
-
-														$num += 1;
-			                    }
-
-			                    echo "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
-
-										echo "</tbody></table>";
-
-										?>
+												<div class="controls" align="left">
+           									<textarea name="eBody" class="ckeditor" cols="69" rows="5"></textarea>
+          						</div>
+                      </div>
+                      <hr>
+                        <div class="actions"><input tabindex="9" name="addP" class="btn btn-inverse large" type="submit" value="Save"></div>
+                  </fieldset>
+                </form>
               </div>
 						</div>
 						</div>

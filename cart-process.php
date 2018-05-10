@@ -9,6 +9,8 @@
   require_once('orderdb.php');
   require_once('wishlist.php');
   require_once('wishlistdb.php');
+  require_once('shipping.php');
+  require_once('promotiondb.php');
 
   if (isset($_POST["addcart"])) {
     $qty = $_POST["quantity"];
@@ -46,18 +48,38 @@
       header("location:product_detail.php?pid=$pid");
     }
 
-  } else if (isset($_POST["checkout"])) {
-    $cart = new cart($_SESSION['uid']);
-    $order = new order();
-    $order->newOrder($cart);
-
-    $cart->removeAllItem();
-    $_SESSION['C_qty'] = 0;
-
-    header("location:profile.php");
-
   } elseif (isset($_POST["updatecoupon"])) {
-    header("location:cart-site.php");
+    if (isset($_POST['coupon'])) {
+      $promotiondb = new promotiondb;
+      $promotion = $promotiondb->getPromotionfromCode($_POST['coupon']);
+      if (!empty($promotion)) {
+        $code = $_POST['coupon'];
+        $promotion = $promotion[0];
+        $product = new product;
+        $cart = new cart($_SESSION['uid']);
+        $total = 0;
+
+        foreach ($cart->getCart() as $key) {
+          $product->selectProduct($key['ProductID']);
+          $eachprice = $product->getPrice();
+          $eachprice = $eachprice * $key['Quantity'];
+          $total += $eachprice;
+        }
+
+        if (isset($promotion['PromotionCondition'])) {
+          if ($total >= $promotion['PromotionCondition']) {
+            header("location:cart-site.php?promotion=$code");
+          }
+          else {
+            header("location:cart-site.php");
+          }
+        } else {
+          header("location:cart-site.php?promotion=$code");
+        }
+      } else {
+        header("location:cart-site.php");
+      }
+    }
   } elseif (isset($_POST["addwishlist"])) {
     $pid = isset($_GET['pid']) ? $_GET['pid'] : '';
     $uid = $_SESSION['uid'];
@@ -90,6 +112,7 @@
           $cart->updateItem($temp2['ProductID'],$key);
         }
       }
+      header("location:cart-site.php");
     }
 
     if (isset($_POST['checkremove'])) {
@@ -133,6 +156,81 @@
 
     header("location:wishlist-page.php");
 
+  } elseif (isset($_POST["checkout"])) {
+    $order = new order;
+    $cart = new cart($_SESSION['uid']);
+    $order->newOrder($cart);
+    $trx = $order->getTrxID();
+
+    foreach ($cart->getCart() as $key) {
+      $qty = $key['Quantity'];
+      $pid = $key['ProductID'];
+      $product = new product;
+      $product->selectProduct($pid);
+      $product->setStock($product->getStock()-$qty);
+    }
+
+    $cart->removeAllItem();
+    $cart->updatecart();
+    $_SESSION['C_qty'] = count($cart->getCart());
+
+    header("location:checkout.php?trx=$trx");
+
+  } elseif (isset($_POST["checkoutwithshipping"])) {
+    $trx = isset($_GET['trx']) ? $_GET['trx'] : '';
+    $order = new order;
+    $order->getOrderbyTrxID($trx);
+    $order->setPaymentMethod($_POST['payment']);
+    $shipping = new shipping($trx);
+    $shipping->addNewShipping($_POST['name'],$_POST['address']);
+    header("location:order-profile.php");
+  } elseif (isset($_POST['confirmpayment'])) {
+    $order = new order;
+    $trx = isset($_GET['trx']) ? $_GET['trx'] : '';
+    $order->getOrderbyTrxID($trx);
+    $order->updatePaymentStatus();
+    header("location:order-profile.php");
+  } elseif (isset($_POST['updatetrack'])) {
+
+    $orderdb = new orderdb;
+    $orderList = $orderdb->getAllSuccessPaymentOrder();
+
+    $arr = array();
+
+    foreach ($orderList as $key) {
+        $ship = new shipping($key['trxID']);
+        if (!$ship->getStatus()) {
+          array_push($arr,$key);
+        }
+    }
+
+
+    for ($i = 0; $i<count($arr); $i++) {
+      $temp = $arr[$i];
+      $key = $_POST['track'][$i];
+      print_r($temp);
+      echo "<br>";
+      echo $key."<br><br>";
+      $ship = new shipping($temp['trxID']);
+      if (!empty($key)) {
+        $ship->updateShippingStatus($key);
+      }
+      header("location:updatetrack.php");
+    }
+  } elseif (isset($_POST['newPromotion'])) {
+      $promotiondb = new promotiondb;
+      $name = $_POST['prName'];
+      $code = $_POST['prCode'];
+      $type = $_POST['prGroup'];
+      $condition = $_POST['prCondition'];
+      $discount = $_POST['prDiscount'];
+      $promotiondb->addPromotion($name,$discount,$code,$type,$condition);
+      header("location:promotion-site.php");
+  } elseif (isset($_POST['removepromotion'])) {
+    $promotiondb = new promotiondb;
+    $prid = isset($_GET['prid']) ? $_GET['prid'] : '';
+    $promotiondb->removePromotion($prid);
+    header("location:promotion-site.php");
   }
 
 

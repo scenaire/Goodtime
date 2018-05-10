@@ -16,20 +16,11 @@ if (isset($_POST["addP"])) {
 		$pDecs = ($_POST["pDecs"]);
 
 		$img = array();
-		if(!empty($_POST["pic1"])) {
-			array_push($img,"Product_image/".$_POST["pic1"]);
-		}
-		if(!empty($_POST["pic2"])) {
-			array_push($img,"Product_image/".$_POST["pic2"]);
-		}
-		if(!empty($_POST["pic3"])) {
-			array_push($img,"Product_image/".$_POST["pic3"]);
-		}
-		if(!empty($_POST["pic4"])) {
-			array_push($img,"Product_image/".$_POST["pic4"]);
-		}
-		if(!empty($_POST["pic5"])) {
-			array_push($img,"Product_image/".$_POST["pic5"]);
+
+		if (!empty($_POST['pic'])) {
+			foreach ($_POST['pic'] as $key) {
+				array_push($img,"Product_image/".$key);
+			}
 		}
 
 		if(empty($pName) || empty($pPrice) || empty($pCategory) || empty($pStock) || empty($img)) {
@@ -95,10 +86,29 @@ if (isset($_POST["addP"])) {
 					<div class="account pull-right">
 						<ul class="user-menu">
 							<?php
-							echo "<b>Hey! ".$_SESSION['uid']."</b>
-						<li><a href='addProduct.php'>Add Product</a></li>
-						<li><a href='logout.php'>Logout</a></li>";
-							 ?>
+                if (isset($_SESSION['uid'])) {
+                  if ($_SESSION['uid'] == "admin") {
+                    echo "<b>Hey! ".$_SESSION['uid']."</b>
+     							<li><a href='addProduct.php'>Add Product</a></li>
+                  <li><a href='updatetrack.php'>อัพเดทแทรค</a></li>
+                  <li><a href='promotion-site.php'>อัพเดทโปรโมชั่น</a></li>
+     							<li><a href='logout.php'>Logout</a></li>";
+                  }
+                  else {
+                    echo "<b>Hey! ".$_SESSION['uid']."</b>";
+                    if ($_SESSION['W_qty'] > 0){
+                      echo "<li><a href='wishlist-page.php'>Wishlist (".$_SESSION['W_qty'].")</a></li>";
+                    }
+                  if ($_SESSION['C_qty'] > 0){
+                    echo "<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>";
+                  }
+                  echo "<li><a href='order-profile.php'>ประวัติการสั่งซื้อ</a></li>";
+                  echo "<li><a href='logout.php'>Logout</a></li>";
+                  }
+                } else {
+                  echo "<li><a href='register.php'>Login</a></li>";
+                }
+                ?>
 						</ul>
 					</div>
 				</div>
@@ -233,11 +243,14 @@ if (isset($_POST["addP"])) {
           						</div>
                       </div>
                         <from action="/action_page.php">
-                          <input type="file" name="pic1" accept="image/*" value="Browse..">
-													<input type="file" name="pic2" accept="image/*" value="Browse..">
-													<input type="file" name="pic3" accept="image/*" value="Browse..">
-													<input type="file" name="pic4" accept="image/*" value="Browse..">
-													<input type="file" name="pic5" accept="image/*" value="Browse..">
+
+													<?php
+
+													for ($i=0; $i<5; $i++) {
+														echo "<input type='file' name='pic[]' accept='image/*' onchange='readURL(this);' value='Browse..'>";
+													}
+
+													 ?>
                         </from>
                       <hr>
                         <div class="actions"><input tabindex="9" name="addP" class="btn btn-inverse large" type="submit" value="Save"></div>

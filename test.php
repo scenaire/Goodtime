@@ -17,6 +17,8 @@ require "product.php";
 require "productdb.php";
 require "wishlist.php";
 require "wishlistdb.php";
+require "shipping.php";
+require "promotiondb.php";
 
 //$user = new user("Tempesta","kwankang","จิรัชญา","ยี่โต๊ะ","36/20 ถนนมลิวรรณ ตำบล กุดป่อง อำเภอ เมือง จังหวัด เลย 42000","tempesta-psyzeoul@Hotmail.com");
 /*$user = new user;
@@ -38,10 +40,23 @@ if ($aa == true) {
  *
  */
 
+ /*$order = new order;
+ print_r($order->getOrderbyTrxID(8));
+ echo "<br><br>".$order->getPayment();*/
+
+ /*$orderdb = new orderdb();
+ print_r($orderdb->getAllSuccessPaymentOrder());*/
+
+//$order = new order;
+//print_r($order->getOrderbyUsername("scenaire"));
+
+/*$user = new user;
+$user->selectUser("yoyo");
+$e = $user->getEmail();
 
  $mail = new PHPMailer;
  $mail->setFrom('tempesta-psyzeoul@hotmail.com', 'Erianecs');
- $mail->addAddress('tempesta-psyzeoul@hotmail.com', 'Scenaire');
+ $mail->addAddress($e, 'Scenaire');
  $mail->Subject  = 'First PHPMailer Message';
  $mail->Body     = 'Hi! This is my first e-mail sent through PHPMailer.';
  if(!$mail->send()) {
@@ -49,7 +64,9 @@ if ($aa == true) {
    echo 'Mailer error: ' . $mail->ErrorInfo;
  } else {
    echo 'Message has been sent.';
- }
+ }*/
+
+
 
 //$obj = new product;
 //$product = new product;

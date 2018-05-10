@@ -16,8 +16,6 @@ Class cart {
   public function addItem($p_id,$quantity) {
     $cartdb = new cartdb;
     $cartdb->addItem($this->customer,$p_id,$quantity);
-
-    //array_push($this->cart,array('id'=>$p_id,'quantity'=>$quantity));
   }
 
   public function updateItem($p_id,$quantity) {

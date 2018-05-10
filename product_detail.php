@@ -48,6 +48,8 @@ require_once('productdb.php');
                   if ($_SESSION['uid'] == "admin") {
                     echo "<b>Hey! ".$_SESSION['uid']."</b>
      							<li><a href='addProduct.php'>Add Product</a></li>
+                  <li><a href='updatetrack.php'>อัพเดทแทรค</a></li>
+                  <li><a href='promotion-site.php'>อัพเดทโปรโมชั่น</a></li>
      							<li><a href='logout.php'>Logout</a></li>";
                   }
                   else {
@@ -58,6 +60,7 @@ require_once('productdb.php');
                   if ($_SESSION['C_qty'] > 0){
                     echo "<li><a href='cart-site.php'>Your Cart (".$_SESSION['C_qty'].")</a></li>";
                   }
+                  echo "<li><a href='order-profile.php'>ประวัติการสั่งซื้อ</a></li>";
                   echo "<li><a href='logout.php'>Logout</a></li>";
                   }
                 } else {
