@@ -1,5 +1,12 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
   session_start();
   require_once('product.php');
   require_once('productdb.php');
@@ -11,6 +18,9 @@
   require_once('wishlistdb.php');
   require_once('shipping.php');
   require_once('promotiondb.php');
+  require_once('userdb.php');
+  require_once('user.php');
+  require_once('slip.php');
 
   if (isset($_POST["addcart"])) {
     $qty = $_POST["quantity"];
@@ -178,18 +188,45 @@
 
   } elseif (isset($_POST["checkoutwithshipping"])) {
     $trx = isset($_GET['trx']) ? $_GET['trx'] : '';
-    $order = new order;
-    $order->getOrderbyTrxID($trx);
-    $order->setPaymentMethod($_POST['payment']);
-    $shipping = new shipping($trx);
-    $shipping->addNewShipping($_POST['name'],$_POST['address']);
-    header("location:order-profile.php");
+    if (empty($_POST['payment']) || empty($_POST['name']) || empty($_POST['address'])) {
+      header("location:checkout.php?trx=$trx");
+    } else {
+      $order = new order;
+      $order->getOrderbyTrxID($trx);
+      $order->setPaymentMethod($_POST['payment']);
+      $shipping = new shipping($trx);
+      $shipping->addNewShipping($_POST['name'],$_POST['address']);
+      header("location:order-profile.php");
+    }
+
   } elseif (isset($_POST['confirmpayment'])) {
+
     $order = new order;
     $trx = isset($_GET['trx']) ? $_GET['trx'] : '';
     $order->getOrderbyTrxID($trx);
     $order->updatePaymentStatus();
-    header("location:order-profile.php");
+
+    $user = new user;
+    $user->selectUser($order->getCustomer());
+
+    $mail = new PHPMailer;
+    $mail->CharSet = 'UTF-8';
+    $mail->isHTML(true);
+    $mail->setFrom('tempesta-psyzeoul@hotmail.com', 'Erianecs');
+    $mail->addAddress($user->getEmail(), $user->getUsername());
+
+    $slip = new slip($trx);
+
+    $mail->Subject  = "ใบเสร็จรับเงินหมายเลขใบสั่งซื้อที่# ".$order->getTrxID();
+    $mail->Body     = $slip->getBody();
+
+    if(!$mail->send()) {
+      echo 'Message was not sent.';
+      echo 'Mailer error: ' . $mail->ErrorInfo;
+    } else {
+      header("location:order-profile.php");
+    }
+
   } elseif (isset($_POST['updatetrack'])) {
 
     $orderdb = new orderdb;
@@ -231,6 +268,35 @@
     $prid = isset($_GET['prid']) ? $_GET['prid'] : '';
     $promotiondb->removePromotion($prid);
     header("location:promotion-site.php");
+  } elseif (isset($_POST['newmail'])) {
+
+    $userdb = new userdb;
+    $allcustomer = $userdb->getAllCustomer();
+
+    $mail = new PHPMailer;
+    $mail->CharSet = 'UTF-8';
+    $mail->isHTML(true);
+    $mail->setFrom('tempesta-psyzeoul@hotmail.com', 'Erianecs');
+    $mail->Subject  = $_POST['eName'];
+    $mail->Body     = $_POST['eBody'];
+
+    foreach ($allcustomer as $customer) {
+      if ($customer['sendpromotion']) {
+        $Cmail = $customer['CustEmail'];
+        $Cname = $customer['username'];
+        $mail->clearAddresses();
+        $mail->addAddress($Cmail, $Cname);
+        if(!$mail->send()) {
+          echo 'Message was not sent.';
+          echo 'Mailer error: ' . $mail->ErrorInfo;
+        } else {
+          header("location:sendmail.php");
+        }
+      }
+    }
+
+
+
   }
 
 

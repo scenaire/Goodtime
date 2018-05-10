@@ -55,6 +55,10 @@ Class order {
     return $this->payment;
   }
 
+  public function getCustomer(){
+    return $this->customer;
+  }
+
   public function getTrxID() {
     return $this->trxID;
   }

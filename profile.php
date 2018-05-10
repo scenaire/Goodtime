@@ -50,6 +50,7 @@ require_once('user.php');
      							<li><a href='addProduct.php'>Add Product</a></li>
                   <li><a href='updatetrack.php'>อัพเดทแทรค</a></li>
                   <li><a href='promotion-site.php'>อัพเดทโปรโมชั่น</a></li>
+                  <li><a href='sendmail.php'>ส่งอีเมล์</a></li>
      							<li><a href='logout.php'>Logout</a></li>";
                   }
                   else {
@@ -67,7 +68,6 @@ require_once('user.php');
                   echo "<li><a href='register.php'>Login</a></li>";
                 }
                 ?>
-
 						</ul>
 					</div>
 				</div>

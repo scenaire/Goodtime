@@ -54,6 +54,7 @@ require_once('productdb.php');
      							<li><a href='addProduct.php'>Add Product</a></li>
                   <li><a href='updatetrack.php'>อัพเดทแทรค</a></li>
                   <li><a href='promotion-site.php'>อัพเดทโปรโมชั่น</a></li>
+                  <li><a href='sendmail.php'>ส่งอีเมล์</a></li>
      							<li><a href='logout.php'>Logout</a></li>";
                   }
                   else {
@@ -109,7 +110,7 @@ require_once('productdb.php');
 							<div class="span5">
                 <div class="span7">
                   <h4 class="title"><span class="text"><strong>Sending</strong> Email to customer</span></h4>
-                  <form action="sendmail.php" method="post" class="form-stacked">
+                  <form action="cart-process.php" method="post" class="form-stacked">
                     <fieldset>
 
                        <label>อีเมล์นี้จะส่งให้เฉพาะลูกค้าที่ลงทะเบียน newsletter เท่านั้น</label><br>
@@ -129,7 +130,7 @@ require_once('productdb.php');
           						</div>
                       </div>
                       <hr>
-                        <div class="actions"><input tabindex="9" name="addP" class="btn btn-inverse large" type="submit" value="Save"></div>
+                        <div class="actions"><input tabindex="9" name="newmail" class="btn btn-inverse large" type="submit" value="Save"></div>
                   </fieldset>
                 </form>
               </div>

@@ -20,6 +20,11 @@ require "wishlistdb.php";
 require "shipping.php";
 require "promotiondb.php";
 
+$a = "mwwwww";
+$b = "eeeee";
+$a = $a.$b;
+echo $a;
+
 //$user = new user("Tempesta","kwankang","จิรัชญา","ยี่โต๊ะ","36/20 ถนนมลิวรรณ ตำบล กุดป่อง อำเภอ เมือง จังหวัด เลย 42000","tempesta-psyzeoul@Hotmail.com");
 /*$user = new user;
 $aa = $user->register("Tempesta","kwankang","จิรัชญา","ยี่โต๊ะ","36/20 ถนนมลิวรรณ ตำบล กุดป่อง อำเภอ เมือง จังหวัด เลย 42000","tempesta-psyzeoul@Hotmail.com");

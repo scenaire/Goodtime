@@ -213,7 +213,7 @@ require_once('shipping.php');
                      $date = $key['OrderDate'];
 
                      echo "<td>$num</td>
-                     <td><a href='checkout.php?trx=$trxID'>หมายเลขใบสั่งซื้อที่ ".$trxID."</a></td>
+                     <td><a href='checkout-history.php?trx=$trxID'>หมายเลขใบสั่งซื้อที่ ".$trxID."</a></td>
                      <td>$total</td>
                      <td>$net</td>
                      <td>ชำระเงินเรียบร้อย</td>
@@ -255,7 +255,7 @@ require_once('shipping.php');
                           $post = $shipping->getPosttrack();
 
                           echo "<td>$num</td>
-                          <td><a href='checkout.php?trx=$trxID'>หมายเลขใบสั่งซื้อที่ ".$trxID."</a></td>
+                          <td><a href='checkout-history.php?trx=$trxID'>หมายเลขใบสั่งซื้อที่ ".$trxID."</a></td>
                           <td>$total</td>
                           <td>$net</td>
                           <td>ทำการส่งสินค้าเรียบร้อย</td>
