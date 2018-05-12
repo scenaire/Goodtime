@@ -1,6 +1,8 @@
 <?php
 
-session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
 require_once('product.php');
 require_once('productdb.php');
 require_once('order.php');
